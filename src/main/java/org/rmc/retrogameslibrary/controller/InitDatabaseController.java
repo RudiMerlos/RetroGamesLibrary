@@ -13,13 +13,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class InitDatabaseController {
-
-    @FXML
-    private AnchorPane ap;
 
     @FXML
     private TextField txtHost;
@@ -41,10 +37,11 @@ public class InitDatabaseController {
         String user = txtUser.getText();
         String pass = pswPassword.getText();
         String db = txtDatabase.getText();
+
         if (!host.isEmpty() && !user.isEmpty() && !db.isEmpty()) {
             MysqlConnection mysqlConnection = MysqlConnection.getInstance();
             try {
-                mysqlConnection.getConnection(host, user, pass, db);
+                mysqlConnection.connect(host, user, pass, db);
                 PropertiesConfig.writeDatabaseProperties(host, user, pass, db);
                 initMainWindow((Stage) btnOk.getScene().getWindow());
             } catch (SQLException e) {
@@ -52,7 +49,6 @@ public class InitDatabaseController {
                         "No se ha podido conectar a la base de datos.",
                         "Comprueba que los datos introducidos son correctos y que el servidor MySQL está corriendo.");
             }
-
         } else {
             AppDialog.errorDialog("Error en la base de datos de usuarios",
                     "Debes rellenar los campos obligatorios.");
@@ -66,7 +62,8 @@ public class InitDatabaseController {
     }
 
     private void initMainWindow(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource(PropertiesConfig.FXML_PATH + "mainWindow.fxml"));
+        Parent root = FXMLLoader
+                .load(getClass().getResource(PropertiesConfig.FXML_PATH + "mainWindow.fxml"));
 
         Scene scene = new Scene(root);
         stage.setScene(scene);

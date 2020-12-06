@@ -20,10 +20,14 @@ public class MysqlConnection {
         return instance;
     }
 
-    public void getConnection(String host, String user, String pass, String db)
+    public void connect(String host, String user, String pass, String db)
             throws SQLException {
         connection = DriverManager.getConnection(
                 "jdbc:mysql://" + host + "/" + db + "?serverTimezone=UTC", user, pass);
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
 
     public void closeConnection() throws SQLException {

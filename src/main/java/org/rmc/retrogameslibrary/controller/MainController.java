@@ -1,7 +1,14 @@
 package org.rmc.retrogameslibrary.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import org.rmc.retrogameslibrary.model.Game;
+import org.rmc.retrogameslibrary.repository.CrudException;
+import org.rmc.retrogameslibrary.service.jdbc.MysqlConnection;
+import org.rmc.retrogameslibrary.service.jdbc.MysqlUserService;
+import org.rmc.retrogameslibrary.view.AppDialog;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -9,7 +16,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
-public class MainController {
+public class MainController implements Initializable {
 
     @FXML
     private MenuItem menuAddNewGame;
@@ -47,4 +54,16 @@ public class MainController {
 
     @FXML
     private TableView<Game> tableGames;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        MysqlConnection mysqlConnection = MysqlConnection.getInstance();
+        try {
+            MysqlUserService userService = new MysqlUserService();
+            userService.createTable(mysqlConnection.getConnection());
+
+        } catch (CrudException e) {
+            AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
+        }
+    }
 }

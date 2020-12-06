@@ -29,10 +29,10 @@ public class Main extends Application {
                 String user = properties.getProperty(PropertiesConfig.MYSQL_USER);
                 String pass = properties.getProperty(PropertiesConfig.MYSQL_PASSWORD);
                 String db = properties.getProperty(PropertiesConfig.MYSQL_DATABASE);
-                mysqlConnection.getConnection(host, user, pass, db);
+                mysqlConnection.connect(host, user, pass, db);
+
                 root = FXMLLoader.load(
                         getClass().getResource(PropertiesConfig.FXML_PATH + "mainwindow.fxml"));
-
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.setTitle("Retro Games Library");

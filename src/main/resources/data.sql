@@ -1,9 +1,0 @@
-CREATE TABLE IF NOT EXISTS user (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    first_name VARCHAR(100) NOT NULL,
-    last_name VARCHAR(200) NOT NULL,
-    birthdate DATE NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    passw VARCHAR(16) NOT NULL,
-    UNIQUE(email)
-);
