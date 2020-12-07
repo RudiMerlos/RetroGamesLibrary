@@ -14,7 +14,7 @@
       <Label layoutX="32.0" layoutY="109.0" text="Password" />
       <PasswordField fx:id="pswPassword" layoutX="113.0" layoutY="104.0" prefHeight="26.0" prefWidth="331.0" promptText="password" />
       <Hyperlink fx:id="lnkRegister" layoutX="21.0" layoutY="180.0" onAction="#onClickLnkRegister" prefHeight="24.0" prefWidth="174.0" text="Registrar nuevo usuario" />
-      <Button fx:id="btnCancel" layoutX="208.0" layoutY="173.0" mnemonicParsing="false" onAction="#onClickBtnCancel" prefHeight="37.0" prefWidth="106.0" text="Cancelar" />
+      <Button fx:id="btnExit" layoutX="208.0" layoutY="173.0" mnemonicParsing="false" onAction="#onClickBtnExit" prefHeight="37.0" prefWidth="106.0" text="Salir" />
       <Button fx:id="btnOk" layoutX="345.0" layoutY="173.0" mnemonicParsing="false" onAction="#onClickBtnOk" prefHeight="37.0" prefWidth="106.0" text="Aceptar" />
    </children>
 </AnchorPane>

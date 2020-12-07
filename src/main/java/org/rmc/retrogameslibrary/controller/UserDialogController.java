@@ -34,7 +34,7 @@ public class UserDialogController implements Initializable {
     @FXML
     private Button btnOk;
     @FXML
-    private Button btnCancel;
+    private Button btnExit;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -69,8 +69,8 @@ public class UserDialogController implements Initializable {
     }
 
     @FXML
-    private void onClickBtnCancel(ActionEvent event) {
-        Stage stage = (Stage) btnCancel.getScene().getWindow();
+    private void onClickBtnExit(ActionEvent event) {
+        Stage stage = (Stage) btnExit.getScene().getWindow();
         stage.close();
     }
 
