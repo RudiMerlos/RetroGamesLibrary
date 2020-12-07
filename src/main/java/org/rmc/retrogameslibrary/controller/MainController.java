@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import org.rmc.retrogameslibrary.model.Game;
 import org.rmc.retrogameslibrary.repository.CrudException;
-import org.rmc.retrogameslibrary.service.jdbc.MysqlConnection;
 import org.rmc.retrogameslibrary.service.jdbc.MysqlUserService;
 import org.rmc.retrogameslibrary.view.AppDialog;
 import javafx.fxml.FXML;
@@ -57,10 +56,9 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        MysqlConnection mysqlConnection = MysqlConnection.getInstance();
         try {
             MysqlUserService userService = new MysqlUserService();
-            userService.createTable(mysqlConnection.getConnection());
+            userService.createTable();
 
         } catch (CrudException e) {
             AppDialog.errorDialog(e.getMessage(), e.getCause().toString());

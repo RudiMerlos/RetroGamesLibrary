@@ -7,6 +7,17 @@ import org.rmc.retrogameslibrary.repository.CrudException;
 
 public interface CloseResources {
 
+    default void close(Statement st) throws CrudException {
+        if (st != null) {
+            try {
+                st.close();
+                st = null;
+            } catch (SQLException e) {
+                throw new CrudException("Error de MySQL", e);
+            }
+        }
+    }
+
     default void close(Statement st, ResultSet rs) throws CrudException {
         if (rs != null) {
             try {
