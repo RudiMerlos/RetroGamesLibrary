@@ -22,22 +22,29 @@ public class Main extends Application {
         Parent root;
         Properties properties = PropertiesConfig.readDatabaseProperties();
 
+        stage.setOnCloseRequest(event -> {
+            try {
+                MysqlConnection.getInstance().closeConnection();
+            } catch (SQLException e) {
+                AppDialog.warningDialog("Error de MySQL",
+                        "No se ha podido cerrar la conexión a la base de datos de usuarios.");
+            }
+        });
+
         if (properties != null) {
-            MysqlConnection mysqlConnection = MysqlConnection.getInstance();
             try {
                 String host = properties.getProperty(PropertiesConfig.MYSQL_HOST);
                 String user = properties.getProperty(PropertiesConfig.MYSQL_USER);
                 String pass = properties.getProperty(PropertiesConfig.MYSQL_PASSWORD);
                 String db = properties.getProperty(PropertiesConfig.MYSQL_DATABASE);
-                mysqlConnection.connect(host, user, pass, db);
+                MysqlConnection.getInstance().connect(host, user, pass, db);
 
                 root = FXMLLoader.load(
-                        getClass().getResource(PropertiesConfig.FXML_PATH + "mainwindow.fxml"));
+                        getClass().getResource(PropertiesConfig.FXML_PATH + "userdialog.fxml"));
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
-                stage.setTitle("Retro Games Library");
-                stage.setMinWidth(800);
-                stage.setMinHeight(768);
+                stage.setTitle("Login");
+                stage.setResizable(false);
                 stage.show();
             } catch (SQLException e) {
                 AppDialog.errorDialog("User Database Error",

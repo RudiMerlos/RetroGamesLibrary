@@ -2,14 +2,12 @@ package org.rmc.retrogameslibrary.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import org.rmc.retrogameslibrary.config.PropertiesConfig;
 import org.rmc.retrogameslibrary.model.Game;
-import org.rmc.retrogameslibrary.repository.CrudException;
-import org.rmc.retrogameslibrary.service.jdbc.MysqlUserService;
-import org.rmc.retrogameslibrary.view.AppDialog;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableView;
@@ -47,8 +45,6 @@ public class MainController implements Initializable {
     @FXML
     private Label lblUser;
     @FXML
-    private ComboBox<String> combOrderBy;
-    @FXML
     private TextField txtSearch;
 
     @FXML
@@ -56,12 +52,71 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try {
-            MysqlUserService userService = new MysqlUserService();
-            userService.createTable();
+        lblUser.setText(PropertiesConfig.CURRENT_USER);
+    }
 
-        } catch (CrudException e) {
-            AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
-        }
+    @FXML
+    private void onClickAddNewGame(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void onClickImport(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void onClickExport(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void onClickSessionClose(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void onClickQuit(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void onClickEditGame(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void onClickDeleteGame(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void onClickPlatforms(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void onClickUsers(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void onClickEmulators(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void onClickPreferences(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void onClickAbout(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void onTextChangedTxtSearch(ActionEvent event) {
+
     }
 }

@@ -10,7 +10,7 @@ public class AppDialog {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(header);
-        alert.show();
+        alert.showAndWait();
     }
 
     public static void errorDialog(String title, String header, String content) {
@@ -19,6 +19,29 @@ public class AppDialog {
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        alert.show();
+        alert.showAndWait();
+    }
+
+    public static void messageDialog(String title, String header) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.showAndWait();
+    }
+
+    public static void warningDialog(String title, String header) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.showAndWait();
+    }
+
+    public static void warningDialog(String title, String header, String content) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.showAndWait();
     }
 }

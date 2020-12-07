@@ -39,11 +39,10 @@ public class InitDatabaseController {
         String db = txtDatabase.getText();
 
         if (!host.isEmpty() && !user.isEmpty() && !db.isEmpty()) {
-            MysqlConnection mysqlConnection = MysqlConnection.getInstance();
             try {
-                mysqlConnection.connect(host, user, pass, db);
+                MysqlConnection.getInstance().connect(host, user, pass, db);
                 PropertiesConfig.writeDatabaseProperties(host, user, pass, db);
-                initMainWindow((Stage) btnOk.getScene().getWindow());
+                initLoginWindow((Stage) btnOk.getScene().getWindow());
             } catch (SQLException e) {
                 AppDialog.errorDialog("Error en la base de datos de usuarios",
                         "No se ha podido conectar a la base de datos.",
@@ -61,15 +60,14 @@ public class InitDatabaseController {
         stage.close();
     }
 
-    private void initMainWindow(Stage stage) throws IOException {
+    private void initLoginWindow(Stage stage) throws IOException {
         Parent root = FXMLLoader
-                .load(getClass().getResource(PropertiesConfig.FXML_PATH + "mainWindow.fxml"));
+                .load(getClass().getResource(PropertiesConfig.FXML_PATH + "userdialog.fxml"));
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setTitle("Retro Games Library");
-        stage.setMinWidth(800);
-        stage.setMinHeight(768);
+        stage.setTitle("Login");
+        stage.setResizable(false);
         stage.show();
     }
 }

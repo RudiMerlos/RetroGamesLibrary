@@ -15,6 +15,9 @@ public class PropertiesConfig {
     private static final String PROPERTIES_FILE = "./config.conf";
     private static final Path PROPERTIES_PATH = Paths.get(PROPERTIES_FILE);
 
+    // Current user
+    public static String CURRENT_USER = "";
+
     // Users database properties
     public static final String MYSQL_HOST = "mysql_host";
     public static final String MYSQL_USER = "mysql_user";

@@ -20,7 +20,7 @@
       <Label layoutX="48.0" layoutY="160.0" text="Apellidos" />
       <TextField fx:id="txtLastName" layoutX="48.0" layoutY="180.0" prefHeight="26.0" prefWidth="327.0" />
       <Label layoutX="48.0" layoutY="220.0" text="Fecha nacimiento" />
-      <DatePicker fx:id="dprBirthdate" layoutX="48.0" layoutY="240.0" prefHeight="26.0" prefWidth="327.0" />
+      <DatePicker fx:id="dprBirthdate" editable="false" layoutX="48.0" layoutY="240.0" prefHeight="26.0" prefWidth="327.0" />
       <Label layoutX="48.0" layoutY="280.0" text="Email*" />
       <TextField fx:id="txtEmail" layoutX="48.0" layoutY="300.0" prefHeight="26.0" prefWidth="327.0" />
       <Label layoutX="48.0" layoutY="340.0" text="Password*" />
