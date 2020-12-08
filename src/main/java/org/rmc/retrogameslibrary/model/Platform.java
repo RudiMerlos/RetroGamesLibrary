@@ -36,9 +36,6 @@ public class Platform {
     @Column(columnDefinition = "YEAR", nullable = false)
     private int year;
 
-    @Column
-    private String logo;
-
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Game> games = new ArrayList<>();
 

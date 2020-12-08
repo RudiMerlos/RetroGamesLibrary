@@ -1,18 +1,25 @@
 package org.rmc.retrogameslibrary.controller;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import org.rmc.retrogameslibrary.config.PropertiesConfig;
 import org.rmc.retrogameslibrary.model.Game;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class MainController implements Initializable {
 
@@ -63,7 +70,8 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        lblUser.setText(PropertiesConfig.CURRENT_USER);
+        Properties properties = PropertiesConfig.readProperties();
+        lblUser.setText(properties.getProperty(PropertiesConfig.CURRENT_USER));
     }
 
     @FXML
@@ -82,8 +90,15 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void onClickSessionClose(ActionEvent event) {
-
+    private void onClickSessionClose(ActionEvent event) throws IOException {
+        PropertiesConfig.writeCurrentUserProperties("");
+        Stage stage = (Stage) btnAddNewGame.getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/view/logindialog.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Login");
+        stage.setResizable(false);
+        stage.show();
     }
 
     @FXML
@@ -102,13 +117,31 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void onClickPlatforms(ActionEvent event) {
-
+    private void onClickPlatforms(ActionEvent event) throws IOException {
+        Stage thisStage = (Stage) btnAddNewGame.getScene().getWindow();
+        Stage newStage = new Stage();
+        newStage.initOwner(thisStage);
+        newStage.initModality(Modality.WINDOW_MODAL);
+        Parent root = FXMLLoader.load(getClass().getResource("/view/platformdialog.fxml"));
+        Scene scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.setTitle("Platforms");
+        newStage.setResizable(false);
+        newStage.show();
     }
 
     @FXML
-    private void onClickUsers(ActionEvent event) {
-
+    private void onClickUsers(ActionEvent event) throws IOException {
+        Stage thisStage = (Stage) btnAddNewGame.getScene().getWindow();
+        Stage newStage = new Stage();
+        newStage.initOwner(thisStage);
+        newStage.initModality(Modality.WINDOW_MODAL);
+        Parent root = FXMLLoader.load(getClass().getResource("/view/usersdialog.fxml"));
+        Scene scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.setTitle("Users");
+        newStage.setResizable(false);
+        newStage.show();
     }
 
     @FXML

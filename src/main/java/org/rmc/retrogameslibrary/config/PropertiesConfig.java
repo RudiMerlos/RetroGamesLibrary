@@ -13,7 +13,7 @@ public class PropertiesConfig {
     private static final Path PROPERTIES_PATH = Paths.get(PROPERTIES_FILE);
 
     // Current user
-    public static String CURRENT_USER = "";
+    public static final String CURRENT_USER = "current_user";
 
     // Users database properties
     public static final String MYSQL_HOST = "mysql_host";
@@ -47,15 +47,27 @@ public class PropertiesConfig {
         properties.setProperty(MYSQL_PASSWORD, pass);
         properties.setProperty(MYSQL_DATABASE, db);
         try {
-            properties.store(Files.newOutputStream(PROPERTIES_PATH), "Users database properties");
+            properties.store(Files.newOutputStream(PROPERTIES_PATH),
+                    "Retro Games Library Properties");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    // Reads users database properties
+    // Writes current user properties into properties file
+    public static void writeCurrentUserProperties(String currentUser) {
+        properties.setProperty(CURRENT_USER, currentUser);
+        try {
+            properties.store(Files.newOutputStream(PROPERTIES_PATH),
+                    "Retro Games Library Properties");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Reads properties
     // If they has been set it returns the properties, if not, it returns null
-    public static Properties readDatabaseProperties() {
+    public static Properties readProperties() {
         if (thereIsDatabaseProperties())
             return properties;
         return null;

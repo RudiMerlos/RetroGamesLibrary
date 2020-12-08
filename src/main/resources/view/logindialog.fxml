@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="237.0" prefWidth="484.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rmc.retrogameslibrary.controller.UserDialogController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="237.0" prefWidth="484.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rmc.retrogameslibrary.controller.LoginDialogController">
    <children>
       <Label layoutX="57.0" layoutY="39.0" text="Email" />
       <TextField fx:id="txtUsername" layoutX="113.0" layoutY="34.0" prefHeight="26.0" prefWidth="331.0" promptText="user@email.com" />

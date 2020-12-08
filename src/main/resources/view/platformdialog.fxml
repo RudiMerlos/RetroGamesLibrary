@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.rmc.retrogameslibrary.controller.PlatformDialogController">
+   <bottom>
+      <AnchorPane prefHeight="60.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnAddPlatform" layoutX="57.0" layoutY="17.0" mnemonicParsing="false" onAction="#onClickBtnAddPlatform" prefHeight="26.0" prefWidth="133.0" text="Añadir" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="17.0" />
+            <Button fx:id="btnEditPlatform" layoutX="334.0" layoutY="17.0" mnemonicParsing="false" onAction="#onClickBtnEditPlatform" prefHeight="26.0" prefWidth="133.0" text="Editar" AnchorPane.bottomAnchor="17.0" AnchorPane.topAnchor="17.0" />
+            <Button fx:id="btnDeletePlatform" layoutX="627.0" layoutY="17.0" mnemonicParsing="false" onAction="#onClickBtnDeletePlatform" prefHeight="26.0" prefWidth="133.0" text="Eliminar" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="17.0" />
+         </children>
+      </AnchorPane>
+   </bottom>
+   <center>
+      <TableView fx:id="tablePlatforms" prefHeight="537.0" prefWidth="800.0" BorderPane.alignment="TOP_CENTER">
+        <columns>
+          <TableColumn fx:id="colNamePlatform" prefWidth="231.0" text="Nombre" />
+          <TableColumn fx:id="colModelPlatform" minWidth="0.0" prefWidth="166.0" text="Modelo" />
+            <TableColumn fx:id="colCompanyPlatform" prefWidth="274.0" text="Compañía" />
+            <TableColumn fx:id="colYearPlatform" prefWidth="128.0" text="Año" />
+        </columns>
+      </TableView>
+   </center>
+</BorderPane>

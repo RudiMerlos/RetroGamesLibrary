@@ -1,10 +1,20 @@
-package org.rmc.retrogameslibrary.view;
+package org.rmc.retrogameslibrary.dialog;
 
+import java.util.Optional;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Region;
 
 public class AppDialog {
+
+    public static boolean confirmationDialog(String title, String header) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.OK;
+    }
 
     public static void errorDialog(String title, String header) {
         Alert alert = new Alert(AlertType.ERROR);

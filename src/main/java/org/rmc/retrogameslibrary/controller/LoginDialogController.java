@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import org.rmc.retrogameslibrary.config.PropertiesConfig;
+import org.rmc.retrogameslibrary.dialog.AppDialog;
 import org.rmc.retrogameslibrary.model.User;
 import org.rmc.retrogameslibrary.repository.CrudException;
 import org.rmc.retrogameslibrary.service.UserService;
 import org.rmc.retrogameslibrary.service.jdbc.MysqlUserService;
-import org.rmc.retrogameslibrary.view.AppDialog;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +21,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class UserDialogController implements Initializable {
+public class LoginDialogController implements Initializable {
 
     @FXML
     private TextField txtUsername;
@@ -57,7 +57,7 @@ public class UserDialogController implements Initializable {
                 if (!user.getPassword().equals(pswPassword.getText())) {
                     AppDialog.errorDialog("Error", "La contraseña es incorrecta.");
                 } else {
-                    PropertiesConfig.CURRENT_USER = email;
+                    PropertiesConfig.writeCurrentUserProperties(user.getEmail());
                     initMainWindow((Stage) btnOk.getScene().getWindow());
                 }
             } else {

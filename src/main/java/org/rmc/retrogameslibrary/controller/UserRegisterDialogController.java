@@ -2,11 +2,11 @@ package org.rmc.retrogameslibrary.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import org.rmc.retrogameslibrary.dialog.AppDialog;
 import org.rmc.retrogameslibrary.model.User;
 import org.rmc.retrogameslibrary.repository.CrudException;
 import org.rmc.retrogameslibrary.service.UserService;
 import org.rmc.retrogameslibrary.service.jdbc.MysqlUserService;
-import org.rmc.retrogameslibrary.view.AppDialog;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -77,7 +77,7 @@ public class UserRegisterDialogController {
     }
 
     private void backToLoginWindow(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/userdialog.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/logindialog.fxml"));
 
         Scene scene = new Scene(root);
         stage.setScene(scene);

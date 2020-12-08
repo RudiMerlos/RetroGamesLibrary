@@ -165,7 +165,7 @@
       </BorderPane>
    </center>
    <right>
-      <AnchorPane minWidth="300.0" prefHeight="200.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+      <AnchorPane maxWidth="300.0" minWidth="300.0" prefHeight="200.0" prefWidth="300.0" BorderPane.alignment="CENTER">
          <children>
             <VBox layoutX="73.0" layoutY="35.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
                <children>
