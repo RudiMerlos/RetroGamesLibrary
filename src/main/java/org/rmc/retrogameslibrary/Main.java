@@ -39,8 +39,7 @@ public class Main extends Application {
                 String db = properties.getProperty(PropertiesConfig.MYSQL_DATABASE);
                 MysqlConnection.getInstance().connect(host, user, pass, db);
 
-                root = FXMLLoader.load(
-                        getClass().getResource(PropertiesConfig.FXML_PATH + "userdialog.fxml"));
+                root = FXMLLoader.load(getClass().getResource("/view/userdialog.fxml"));
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.setTitle("Login");
@@ -52,8 +51,7 @@ public class Main extends Application {
                         "Comprueba que el servidor MySQL está corriendo.");
             }
         } else {
-            root = FXMLLoader
-                    .load(getClass().getResource(PropertiesConfig.FXML_PATH + "initdatabase.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/view/initdatabase.fxml"));
 
             Scene scene = new Scene(root);
             stage.setScene(scene);

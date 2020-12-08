@@ -6,11 +6,11 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -105,10 +105,10 @@
                <children>
                   <TableView fx:id="tableGames" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn fx:id="colTitleGame" minWidth="7.0" prefWidth="432.0" text="Title" />
-                        <TableColumn fx:id="colPlatformGame" prefWidth="194.0" text="Platform" />
-                        <TableColumn fx:id="colYearGame" prefWidth="124.0" text="Year" />
-                        <TableColumn fx:id="colGendreGame" minWidth="0.0" prefWidth="249.0" text="Gendre" />
+                      <TableColumn fx:id="colTitleGame" minWidth="7.0" prefWidth="432.0" text="Título" />
+                        <TableColumn fx:id="colPlatformGame" prefWidth="194.0" text="Plataforma" />
+                        <TableColumn fx:id="colYearGame" prefWidth="124.0" text="Año" />
+                        <TableColumn fx:id="colGendreGame" minWidth="0.0" prefWidth="249.0" text="Género" />
                     </columns>
                   </TableView>
                </children>
@@ -137,6 +137,17 @@
                            <HBox.margin>
                               <Insets left="20.0" top="12.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnPlayGame" disable="true" mnemonicParsing="false" onAction="#onClickPlayGame" prefHeight="40.0" prefWidth="40.0" text="►">
+                           <HBox.margin>
+                              <Insets left="20.0" top="12.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
                         </Button>
                         <Label fx:id="lblUser">
                            <HBox.margin>
@@ -154,9 +165,54 @@
       </BorderPane>
    </center>
    <right>
-      <ScrollPane minWidth="200.0" prefHeight="577.0" prefWidth="300.0" BorderPane.alignment="CENTER">
-         <content>
-            <VBox fx:id="vboxInfo" minWidth="200.0" prefHeight="283.0" prefWidth="298.0" />
-         </content></ScrollPane>
+      <AnchorPane minWidth="300.0" prefHeight="200.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox layoutX="73.0" layoutY="35.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+               <children>
+                  <ImageView fx:id="imgPhotoDetails" fitHeight="180.0" fitWidth="260.0" pickOnBounds="true" preserveRatio="true" />
+                  <Label fx:id="lblTitleDetails" alignment="TOP_CENTER" prefWidth="260.0" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Label fx:id="lblPlatformDetails">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Label>
+                  <BorderPane prefWidth="200.0">
+                     <left>
+                        <Label fx:id="lblGenderDetails" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets />
+                           </BorderPane.margin>
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </Label>
+                     </left>
+                     <right>
+                        <Label fx:id="lblYearDetails" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </Label>
+                     </right>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </BorderPane>
+                  <Label fx:id="lblDescriptionDetails" alignment="TOP_LEFT" wrapText="true">
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Label>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
    </right>
 </BorderPane>

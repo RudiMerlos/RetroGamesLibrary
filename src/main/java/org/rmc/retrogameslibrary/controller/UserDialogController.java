@@ -82,19 +82,19 @@ public class UserDialogController implements Initializable {
 
     private void initMainWindow(Stage stage) throws IOException {
         Parent root = FXMLLoader
-                .load(getClass().getResource(PropertiesConfig.FXML_PATH + "mainwindow.fxml"));
+                .load(getClass().getResource("/view/mainwindow.fxml"));
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Retro Games Library");
-        stage.setMinWidth(800);
-        stage.setMinHeight(768);
+        stage.setMinWidth(900);
+        stage.setMinHeight(700);
+        stage.setResizable(true);
         stage.show();
     }
 
     private void userRegisterWindow(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(
-                getClass().getResource(PropertiesConfig.FXML_PATH + "userregisterdialog.fxml"));
+        Parent root = FXMLLoader.load( getClass().getResource("/view/userregisterdialog.fxml"));
 
         Scene scene = new Scene(root);
         stage.setScene(scene);

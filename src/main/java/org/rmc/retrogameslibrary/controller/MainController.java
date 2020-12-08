@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
@@ -43,12 +44,22 @@ public class MainController implements Initializable {
     @FXML
     private Button btnAddNewGame;
     @FXML
+    private Button btnPlayGame;
+    @FXML
     private Label lblUser;
     @FXML
     private TextField txtSearch;
 
     @FXML
     private TableView<Game> tableGames;
+    @FXML
+    private TableColumn<Game, String> colTitleGame;
+    @FXML
+    private TableColumn<Game, String> colPlatformGame;
+    @FXML
+    private TableColumn<Game, Integer> colYearGame;
+    @FXML
+    private TableColumn<Game, String> colGendreGame;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -112,6 +123,11 @@ public class MainController implements Initializable {
 
     @FXML
     private void onClickAbout(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void onClickPlayGame(ActionEvent event) {
 
     }
 

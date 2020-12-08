@@ -8,9 +8,6 @@ import java.util.Properties;
 
 public class PropertiesConfig {
 
-    // Path to fxml views
-    public static final String FXML_PATH = "/org/rmc/retrogameslibrary/view/";
-
     // Path to properties file
     private static final String PROPERTIES_FILE = "./config.conf";
     private static final Path PROPERTIES_PATH = Paths.get(PROPERTIES_FILE);
