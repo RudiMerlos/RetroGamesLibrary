@@ -9,9 +9,6 @@ import org.rmc.retrogameslibrary.service.UserService;
 import org.rmc.retrogameslibrary.service.jdbc.MysqlUserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
@@ -59,7 +56,7 @@ public class UserRegisterDialogController {
                     AppDialog.messageDialog("Creación de usuarios",
                             "Usuario " + email + " creado con éxito.");
                     Stage stage = (Stage) btnCancel.getScene().getWindow();
-                    backToLoginWindow(stage);
+                    stage.close();
                 } catch (CrudException e) {
                     AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
                 }
@@ -73,17 +70,7 @@ public class UserRegisterDialogController {
     @FXML
     private void onClickBtnCancel(ActionEvent event) throws IOException {
         Stage stage = (Stage) btnCancel.getScene().getWindow();
-        backToLoginWindow(stage);
-    }
-
-    private void backToLoginWindow(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/logindialog.fxml"));
-
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Login");
-        stage.setResizable(false);
-        stage.show();
+        stage.close();
     }
 
     private boolean emailIsValid(String email) {

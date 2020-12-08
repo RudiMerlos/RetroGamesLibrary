@@ -2,10 +2,14 @@ package org.rmc.retrogameslibrary.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import org.rmc.retrogameslibrary.config.PropertiesConfig;
+import org.rmc.retrogameslibrary.dialog.AppDialog;
 import org.rmc.retrogameslibrary.model.Game;
+import org.rmc.retrogameslibrary.service.jdbc.MysqlConnection;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +22,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -66,10 +71,22 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<Game, Integer> colYearGame;
     @FXML
-    private TableColumn<Game, String> colGendreGame;
+    private TableColumn<Game, String> colGenderGame;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    @FXML
+    private ImageView imgPhotoDetails;
+    @FXML
+    private Label lblTitleDetails;
+    @FXML
+    private Label lblPlatformDetails;
+    @FXML
+    private Label lblGenderDetails;
+    @FXML
+    private Label lblYearDetails;
+    @FXML
+    private Label lblDescriptionDetails;
+
+    @Override public void initialize(URL location, ResourceBundle resources) {
         Properties properties = PropertiesConfig.readProperties();
         lblUser.setText(properties.getProperty(PropertiesConfig.CURRENT_USER));
     }
@@ -103,7 +120,16 @@ public class MainController implements Initializable {
 
     @FXML
     private void onClickQuit(ActionEvent event) {
-
+        if (AppDialog.confirmationDialog("Salir de Retro Games Library",
+                "¿Estás seguro de que quieres salir de la aplicación?")) {
+            try {
+                MysqlConnection.getInstance().closeConnection();
+            } catch (SQLException e) {
+                AppDialog.warningDialog("Error de MySQL",
+                        "No se ha podido cerrar la conexión a la base de datos de usuarios.");
+            }
+            Platform.exit();
+        }
     }
 
     @FXML

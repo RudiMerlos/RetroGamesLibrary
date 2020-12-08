@@ -31,7 +31,7 @@ public class Game {
     private int year;
 
     @Column(columnDefinition = "VARCHAR(50)")
-    private String gendre;
+    private String gender;
 
     @Column
     private String screenshot;
@@ -47,7 +47,7 @@ public class Game {
         this.title = title;
         this.description = description;
         this.year = year;
-        this.gendre = gendre;
+        this.gender = gendre;
         this.screenshot = screenshot;
         this.path = path;
         this.platform = platform;

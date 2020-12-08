@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class LoginDialogController implements Initializable {
@@ -94,12 +95,14 @@ public class LoginDialogController implements Initializable {
     }
 
     private void userRegisterWindow(Stage stage) throws IOException {
+        Stage newStage = new Stage();
+        newStage.initOwner(stage);
+        newStage.initModality(Modality.WINDOW_MODAL);
         Parent root = FXMLLoader.load( getClass().getResource("/view/userregisterdialog.fxml"));
-
         Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Registro de usuarios");
-        stage.setResizable(false);
-        stage.show();
+        newStage.setScene(scene);
+        newStage.setTitle("Registro de usuarios");
+        newStage.setResizable(false);
+        newStage.show();
     }
 }

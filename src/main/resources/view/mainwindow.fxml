@@ -108,7 +108,7 @@
                       <TableColumn fx:id="colTitleGame" minWidth="7.0" prefWidth="432.0" text="Título" />
                         <TableColumn fx:id="colPlatformGame" prefWidth="194.0" text="Plataforma" />
                         <TableColumn fx:id="colYearGame" prefWidth="124.0" text="Año" />
-                        <TableColumn fx:id="colGendreGame" minWidth="0.0" prefWidth="249.0" text="Género" />
+                        <TableColumn fx:id="colGenderGame" minWidth="0.0" prefWidth="249.0" text="Género" />
                     </columns>
                   </TableView>
                </children>
