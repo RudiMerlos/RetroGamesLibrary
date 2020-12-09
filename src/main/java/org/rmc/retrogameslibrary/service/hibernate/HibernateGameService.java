@@ -15,10 +15,11 @@ public class HibernateGameService extends HibernateService implements GameServic
 
     @Override
     public void insert(Game game) throws CrudException {
-        // TODO set Platform
         try{
             em.getTransaction().begin();
-            em.persist(game);
+            Platform platform = game.getPlatform();
+            platform.addGame(game);
+            em.persist(platform);
             em.getTransaction().commit();
         } catch (Exception e) {
             throw new CrudException("Error de Hibernate", e);
@@ -43,14 +44,11 @@ public class HibernateGameService extends HibernateService implements GameServic
 
     @Override
     public void remove(Game game) throws CrudException {
-        // TODO set Platform
         try {
             em.getTransaction().begin();
-            int result = em.createQuery("DELETE FROM Game g WHERE g.id = :id")
-                    .setParameter("id", game.getId()).executeUpdate();
+            Platform platform = game.getPlatform();
+            platform.removeGame(game);
             em.getTransaction().commit();
-            if (result == 0)
-                throw new CrudException("Es probable que no se haya eliminado el registro.");
         } catch (Exception e) {
             throw new CrudException("Error de Hibernate", e);
         }
