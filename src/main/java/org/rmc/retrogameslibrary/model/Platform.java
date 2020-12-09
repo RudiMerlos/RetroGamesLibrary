@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -18,6 +20,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "platform")
+@NamedQueries({@NamedQuery(name = "Platform.findAll", query = "SELECT p FROM Platform p"),
+        @NamedQuery(name = "Platform.findById",
+                query = "SELECT p FROM Platform p WHERE p.id = :id"),
+        @NamedQuery(name = "Platform.findByName",
+                query = "SELECT p FROM Platform p WHERE p.name LIKE :name"),
+        @NamedQuery(name = "Platform.findByModel",
+                query = "SELECT p FROM Platform p WHERE p.model LIKE :model"),
+        @NamedQuery(name = "Platform.findByCompany",
+                query = "SELECT p FROM Platform p WHERE p.company LIKE :company"),
+        @NamedQuery(name = "Platform.findByYear",
+                query = "SELECT p FROM Platform p WHERE p.year = :year")})
 public class Platform {
 
     @Id

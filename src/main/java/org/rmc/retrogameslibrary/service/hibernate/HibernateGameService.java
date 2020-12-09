@@ -1,79 +1,135 @@
 package org.rmc.retrogameslibrary.service.hibernate;
 
 import java.util.List;
-import javax.persistence.EntityManager;
-import org.rmc.retrogameslibrary.dialog.AppDialog;
+import javax.persistence.TypedQuery;
 import org.rmc.retrogameslibrary.model.Game;
 import org.rmc.retrogameslibrary.model.Platform;
 import org.rmc.retrogameslibrary.repository.CrudException;
 import org.rmc.retrogameslibrary.service.GameService;
 
-public class HibernateGameService implements GameService {
-
-    private EntityManager em = null;
+public class HibernateGameService extends HibernateService implements GameService {
 
     public HibernateGameService() {
-        em = HibernateConnection.getInstance().getEntityManager();
+        super();
     }
 
     @Override
     public void insert(Game game) throws CrudException {
-        em.getTransaction().begin();
-        em.persist(game);
-        em.getTransaction().commit();
+        // TODO set Platform
+        try{
+            em.getTransaction().begin();
+            em.persist(game);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            throw new CrudException("Error de Hibernate", e);
+        }
     }
 
     @Override
     public void modify(Game game) throws CrudException {
-        int result = em
-                .createQuery("UPDATE Game g SET g.title, g.description, g.year, g.gender, "
-                        + "g.screenshot, g.path WHERE g.id = :id")
-                .setParameter("id", game.getId()).executeUpdate();
-        AppDialog.messageDialog("Modificación de juego",
-                result == 0 ? "No se ha modificado ningún juego." : "Juego modificado con éxito.");
+        try {
+            em.getTransaction().begin();
+            int result = em
+                    .createQuery("UPDATE Game g SET g.title, g.description, g.year, g.gender, "
+                            + "g.screenshot, g.path WHERE g.id = :id")
+                    .setParameter("id", game.getId()).executeUpdate();
+            em.getTransaction().commit();
+            if (result == 0)
+                throw new CrudException("Es probable que no se haya eliminado el registro.");
+        } catch (Exception e) {
+            throw new CrudException("Error de Hibernate", e);
+        }
     }
 
     @Override
     public void remove(Game game) throws CrudException {
-        int result = em.createQuery("DELETE FROM Game g WHERE g.id = :id")
-                .setParameter("id", game.getId()).executeUpdate();
-        AppDialog.messageDialog("Modificación de juego",
-                result == 0 ? "No se ha eliminado ningún juego." : "Juego eliminado con éxito.");
+        // TODO set Platform
+        try {
+            em.getTransaction().begin();
+            int result = em.createQuery("DELETE FROM Game g WHERE g.id = :id")
+                    .setParameter("id", game.getId()).executeUpdate();
+            em.getTransaction().commit();
+            if (result == 0)
+                throw new CrudException("Es probable que no se haya eliminado el registro.");
+        } catch (Exception e) {
+            throw new CrudException("Error de Hibernate", e);
+        }
     }
 
     @Override
     public Game getById(Long id) throws CrudException {
-        // TODO Auto-generated method stub
-        return null;
+        Game game = null;
+        try {
+            TypedQuery<Game> query = em.createNamedQuery("Game.findById", Game.class);
+            query.setParameter("id", id);
+            game = query.getSingleResult();
+        } catch (Exception e) {
+            throw new CrudException("Error de Hibernate", e);
+        }
+        return game;
     }
 
     @Override
     public List<Game> getAll() throws CrudException {
-        // TODO Auto-generated method stub
-        return null;
+        List<Game> games = null;
+        try {
+            TypedQuery<Game> query = em.createNamedQuery("Game.findAll", Game.class);
+            games = query.getResultList();
+        } catch (Exception e) {
+            throw new CrudException("Error de Hibernate", e);
+        }
+        return games;
     }
 
     @Override
-    public List<Game> getByTitle(String title) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<Game> getByTitle(String title) throws CrudException {
+        List<Game> games = null;
+        try {
+            TypedQuery<Game> query = em.createNamedQuery("Game.findByTitle", Game.class);
+            query.setParameter("title", title);
+            games = query.getResultList();
+        } catch (Exception e) {
+            throw new CrudException("Error de Hibernate", e);
+        }
+        return games;
     }
 
     @Override
-    public List<Game> getByYear(int year) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<Game> getByYear(int year) throws CrudException {
+        List<Game> games = null;
+        try {
+            TypedQuery<Game> query = em.createNamedQuery("Game.findByYear", Game.class);
+            query.setParameter("year", year);
+            games = query.getResultList();
+        } catch (Exception e) {
+            throw new CrudException("Error de Hibernate", e);
+        }
+        return games;
     }
 
     @Override
-    public List<Game> getByGendre(String gendre) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<Game> getByGender(String gender) throws CrudException {
+        List<Game> games = null;
+        try {
+            TypedQuery<Game> query = em.createNamedQuery("Game.findByGender", Game.class);
+            query.setParameter("gender", gender);
+            games = query.getResultList();
+        } catch (Exception e) {
+            throw new CrudException("Error de Hibernate", e);
+        }
+        return games;
     }
 
     @Override
-    public List<Game> getByPlatform(Platform platform) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<Game> getByPlatform(Platform platform) throws CrudException {
+        List<Game> games = null;
+        try {
+            TypedQuery<Game> query = em.createNamedQuery("Game.findByPlatform", Game.class);
+            query.setParameter("platform", platform);
+            games = query.getResultList();
+        } catch (Exception e) {
+            throw new CrudException("Error de Hibernate", e);
+        }
+        return games;
     }
 }
