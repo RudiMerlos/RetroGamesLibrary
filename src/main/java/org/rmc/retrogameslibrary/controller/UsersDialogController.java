@@ -1,9 +1,7 @@
 package org.rmc.retrogameslibrary.controller;
 
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
-import java.util.ResourceBundle;
 import org.rmc.retrogameslibrary.dialog.AppDialog;
 import org.rmc.retrogameslibrary.model.User;
 import org.rmc.retrogameslibrary.repository.CrudException;
@@ -14,7 +12,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -26,7 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class UsersDialogController implements Initializable {
+public class UsersDialogController {
 
     @FXML
     private TableView<User> tableUsers;
@@ -46,8 +43,8 @@ public class UsersDialogController implements Initializable {
     @FXML
     private Button btnDeleteUser;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    @FXML
+    public void initialize() {
         tableUsers.setPlaceholder(new Label("No hay usuarios"));
         showUsers();
     }
@@ -91,10 +88,11 @@ public class UsersDialogController implements Initializable {
     private void onMouseClickedCol(MouseEvent event) throws IOException {
         if (tableUsers.getSelectionModel().getSelectedItem() != null) {
             btnEditUser.setDisable(false);
+            // TODO check current user to disable delete button
             btnDeleteUser.setDisable(false);
+            if (event.getClickCount() > 1)
+                editUser();
         }
-        if (event.getClickCount() > 1)
-            editUser();
     }
 
     private void editUser() throws IOException {

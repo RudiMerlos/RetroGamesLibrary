@@ -1,16 +1,13 @@
 package org.rmc.retrogameslibrary.controller;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-public class PlatformDialogController implements Initializable {
+public class PlatformDialogController {
 
     @FXML
     private TableView<Platform> tablePlatforms;
@@ -30,8 +27,8 @@ public class PlatformDialogController implements Initializable {
     @FXML
     private Button btnDeletePlatform;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    @FXML
+    public void initialize() {
 
     }
 
