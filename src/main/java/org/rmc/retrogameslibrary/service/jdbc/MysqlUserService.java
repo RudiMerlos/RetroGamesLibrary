@@ -90,7 +90,10 @@ public class MysqlUserService implements UserService, CloseResources {
             st.setString(2, user.getPassword());
             st.setString(3, user.getFirstName());
             st.setString(4, user.getLastName());
-            st.setDate(5, Date.valueOf(user.getBirthdate()));
+            if (user.getBirthdate() == null)
+                st.setDate(5, null);
+            else
+                st.setDate(5, Date.valueOf(user.getBirthdate()));
             if (st.executeUpdate() == 0)
                 throw new CrudException("Es probable que no se haya insertado el registro.");
         } catch (SQLException e) {
@@ -107,7 +110,10 @@ public class MysqlUserService implements UserService, CloseResources {
             st.setString(1, user.getPassword());
             st.setString(2, user.getFirstName());
             st.setString(3, user.getLastName());
-            st.setDate(4, Date.valueOf(user.getBirthdate()));
+            if (user.getBirthdate() == null)
+                st.setDate(4, null);
+            else
+                st.setDate(4, Date.valueOf(user.getBirthdate()));
             st.setString(5, user.getEmail());
             if (st.executeUpdate() == 0)
                 throw new CrudException("Es probable que no se haya modificado el registro.");
@@ -137,7 +143,9 @@ public class MysqlUserService implements UserService, CloseResources {
         String password = rs.getString("passw");
         String firstName = rs.getString("first_name");
         String lastName = rs.getString("last_name");
-        LocalDate birthdate = rs.getDate("birthdate").toLocalDate();
+        LocalDate birthdate = null;
+        if (rs.getDate("birthdate") != null)
+            birthdate = rs.getDate("birthdate").toLocalDate();
         return new User(email, password, firstName, lastName, birthdate);
     }
 

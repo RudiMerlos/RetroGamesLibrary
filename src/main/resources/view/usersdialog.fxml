@@ -11,13 +11,13 @@
       <AnchorPane prefHeight="60.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btnAddUser" layoutX="32.0" layoutY="17.0" mnemonicParsing="false" onAction="#onClickBtnAddUser" prefHeight="26.0" prefWidth="133.0" text="Añadir" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="17.0" />
-            <Button fx:id="btnEditUser" layoutX="334.0" layoutY="17.0" mnemonicParsing="false" onAction="#onClickBtnEditUser" prefHeight="26.0" prefWidth="133.0" text="Editar" AnchorPane.bottomAnchor="17.0" AnchorPane.topAnchor="17.0" />
-            <Button fx:id="btnDeleteUser" layoutX="596.0" layoutY="17.0" mnemonicParsing="false" onAction="#onClickBtnDeleteUser" prefHeight="26.0" prefWidth="133.0" text="Eliminar" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="17.0" />
+            <Button fx:id="btnEditUser" disable="true" layoutX="334.0" layoutY="17.0" mnemonicParsing="false" onAction="#onClickBtnEditUser" prefHeight="26.0" prefWidth="133.0" text="Editar" AnchorPane.bottomAnchor="17.0" AnchorPane.topAnchor="17.0" />
+            <Button fx:id="btnDeleteUser" disable="true" layoutX="596.0" layoutY="17.0" mnemonicParsing="false" onAction="#onClickBtnDeleteUser" prefHeight="26.0" prefWidth="133.0" text="Eliminar" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="17.0" />
          </children>
       </AnchorPane>
    </bottom>
    <center>
-      <TableView fx:id="tableUsers" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="tableUsers" onMouseClicked="#onMouseClickedCol" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn fx:id="colEmailUser" prefWidth="233.0" text="Email" />
           <TableColumn fx:id="colFirstnameUser" prefWidth="158.0" text="Nombre" />

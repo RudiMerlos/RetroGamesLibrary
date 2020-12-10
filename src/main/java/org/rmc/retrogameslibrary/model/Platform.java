@@ -1,5 +1,6 @@
 package org.rmc.retrogameslibrary.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -31,7 +32,9 @@ import lombok.NoArgsConstructor;
                 query = "SELECT p FROM Platform p WHERE p.company LIKE :company"),
         @NamedQuery(name = "Platform.findByYear",
                 query = "SELECT p FROM Platform p WHERE p.year = :year")})
-public class Platform {
+public class Platform implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue
@@ -46,11 +49,22 @@ public class Platform {
     @Column(columnDefinition = "VARCHAR(100)", nullable = false)
     private String company;
 
+    @Column(columnDefinition = "VARCHAR(50)")
+    private String country;
+
     @Column(columnDefinition = "YEAR", nullable = false)
     private int year;
 
-    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "platform", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Game> games = new ArrayList<>();
+
+    public Platform(String name, String model, String company, String country, int year) {
+        this.name = name;
+        this.model = model;
+        this.company = company;
+        this.country = country;
+        this.year = year;
+    }
 
     // Helper methods
     public void addGame(Game game) {

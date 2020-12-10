@@ -1,12 +1,18 @@
 package org.rmc.retrogameslibrary;
 
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import org.rmc.retrogameslibrary.config.PropertiesConfig;
 import org.rmc.retrogameslibrary.dialog.AppDialog;
+import org.rmc.retrogameslibrary.model.Platform;
+import org.rmc.retrogameslibrary.repository.CrudException;
+import org.rmc.retrogameslibrary.service.PlatformService;
+import org.rmc.retrogameslibrary.service.hibernate.HibernateConnection;
+import org.rmc.retrogameslibrary.service.hibernate.HibernatePlatformService;
 import org.rmc.retrogameslibrary.service.jdbc.MysqlConnection;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,9 +39,11 @@ public class Main extends Application {
                     AppDialog.warningDialog("Error de MySQL",
                             "No se ha podido cerrar la conexión a la base de datos de usuarios.");
                 }
-                Platform.exit();
+                javafx.application.Platform.exit();
             }
         });
+
+        initPlatforms();
 
         if (properties != null) {
             try {
@@ -71,5 +79,35 @@ public class Main extends Application {
             stage.setTitle("Configuración de la base de datos");
             stage.show();
         }
+    }
+
+    private void initPlatforms() {
+        HibernateConnection.getInstance().connect("gamesdb");
+        PlatformService platformService = new HibernatePlatformService();
+        try {
+            List<Platform> platforms = platformService.getAll();
+            if (platforms == null || platforms.isEmpty())
+                fillPlatforms();
+        } catch (CrudException e) {
+            AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
+        }
+    }
+
+    private void fillPlatforms() {
+        PlatformService platformService = new HibernatePlatformService();
+        List<Platform> platforms = Arrays.asList(
+            new Platform("Nintendo", "NES", "Nintendo Company Ltd", "Japón", 1889),
+            new Platform("Sega", "Master System II", "Sega Corporation", "Japón", 1960),
+            new Platform("Amstrad", "CPC 6128", "Amstrad", "UK", 1968),
+            new Platform("Atari", "2600", "Atari Inc", "USA", 1972),
+            new Platform("Spectrum", "ZX +128", "Sinclair Research Ltd", "UK", 1973)
+        );
+        platforms.forEach(p -> {
+            try {
+                platformService.insert(p);
+            } catch (CrudException e) {
+                AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
+            }
+        });
     }
 }

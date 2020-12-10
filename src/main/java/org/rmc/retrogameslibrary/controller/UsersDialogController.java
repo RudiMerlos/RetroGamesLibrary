@@ -22,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -68,36 +69,89 @@ public class UsersDialogController implements Initializable {
         colEmailUser.setCellValueFactory(new PropertyValueFactory<User, String>("email"));
         colFirstnameUser.setCellValueFactory(new PropertyValueFactory<User, String>("firstName"));
         colLastnameUser.setCellValueFactory(new PropertyValueFactory<User, String>("lastName"));
-        colBirthdateUser.setCellValueFactory(new PropertyValueFactory<User, LocalDate>("birthdate"));
+        colBirthdateUser
+                .setCellValueFactory(new PropertyValueFactory<User, LocalDate>("birthdate"));
 
         tableUsers.setItems(users);
+        tableUsers.refresh();
     }
 
     @FXML
     private void onClickBtnAddUser(ActionEvent event) throws IOException {
         Stage stage = (Stage) btnAddUser.getScene().getWindow();
-        userRegisterWindow(stage);
+        userRegisterWindow(stage).setOnHidden(e -> showUsers());
     }
 
     @FXML
-    private void onClickBtnEditUser(ActionEvent event) {
+    private void onClickBtnEditUser(ActionEvent event) throws IOException {
+        editUser();
+    }
 
+    @FXML
+    private void onMouseClickedCol(MouseEvent event) throws IOException {
+        if (tableUsers.getSelectionModel().getSelectedItem() != null) {
+            btnEditUser.setDisable(false);
+            btnDeleteUser.setDisable(false);
+        }
+        if (event.getClickCount() > 1)
+            editUser();
+    }
+
+    private void editUser() throws IOException {
+        User user = tableUsers.getSelectionModel().getSelectedItem();
+        if (user != null) {
+            Stage stage = (Stage) btnEditUser.getScene().getWindow();
+            userEditWindow(stage, user).setOnHidden(e -> showUsers());
+        }
     }
 
     @FXML
     private void onClickBtnDeleteUser(ActionEvent event) {
-
+        User user = tableUsers.getSelectionModel().getSelectedItem();
+        if (user != null) {
+            if (AppDialog.confirmationDialog("Eliminar usuarios",
+                    "¿Estás seguro de que quieres borrar al usuario " + user.getEmail() + "?")) {
+                UserService userService = new MysqlUserService();
+                try {
+                    userService.remove(user);
+                    AppDialog.messageDialog("Eliminar usuarios",
+                            "Se ha eliminado el usuario " + user.getEmail() + " con éxito.");
+                    showUsers();
+                    btnEditUser.setDisable(true);
+                    btnDeleteUser.setDisable(true);
+                } catch (CrudException e) {
+                    AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
+                }
+            }
+        }
     }
 
-    private void userRegisterWindow(Stage stage) throws IOException {
+    private Stage userRegisterWindow(Stage stage) throws IOException {
         Stage newStage = new Stage();
         newStage.initOwner(stage);
         newStage.initModality(Modality.WINDOW_MODAL);
-        Parent root = FXMLLoader.load( getClass().getResource("/view/userregisterdialog.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/userregisterdialog.fxml"));
         Scene scene = new Scene(root);
         newStage.setScene(scene);
         newStage.setTitle("Registro de usuarios");
         newStage.setResizable(false);
         newStage.show();
+        return newStage;
+    }
+
+    private Stage userEditWindow(Stage stage, User user) throws IOException {
+        Stage newStage = new Stage();
+        newStage.initOwner(stage);
+        newStage.initModality(Modality.WINDOW_MODAL);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/usereditdialog.fxml"));
+        Parent root = loader.load();
+        UserEditDialogController controller = loader.getController();
+        controller.init(user);
+        Scene scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.setTitle("Edición de usuarios");
+        newStage.setResizable(false);
+        newStage.show();
+        return newStage;
     }
 }

@@ -1,5 +1,6 @@
 package org.rmc.retrogameslibrary.model;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,9 @@ import lombok.NoArgsConstructor;
                 query = "SELECT g FROM Game g WHERE g.gender LIKE :gender"),
         @NamedQuery(name = "Game.findByPlatform",
                 query = "SELECT g FROM Game g WHERE g.platform LIKE :platform")})
-public class Game {
+public class Game implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue
@@ -50,17 +53,21 @@ public class Game {
     @Column
     private String path;
 
+    @Column
+    private String command;
+
     @ManyToOne
     private Platform platform;
 
     public Game(String title, String description, int year, String gendre, String screenshot,
-            String path, Platform platform) {
+            String path, String command, Platform platform) {
         this.title = title;
         this.description = description;
         this.year = year;
         this.gender = gendre;
         this.screenshot = screenshot;
         this.path = path;
+        this.command = command;
         this.platform = platform;
     }
 }
