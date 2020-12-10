@@ -56,7 +56,7 @@ public class Game implements Serializable {
     @Column
     private String command;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Platform platform;
 
     public Game(String title, String description, int year, String gendre, String screenshot,

@@ -35,7 +35,8 @@ public class HibernateGameService extends HibernateService implements GameServic
             em.getTransaction().begin();
             Query query = em.createQuery("UPDATE Game g SET g.title = :title, "
                 + "g.description = :description, g.year = :year, g.gender = :gender, "
-                + "g.screenshot = :screenshot, g.path = :path WHERE g.id = :id");
+                + "g.screenshot = :screenshot, g.path = :path, g.command = :command "
+                + "WHERE g.id = :id");
             query.setParameter("id", game.getId());
             query.setParameter("title", game.getTitle());
             query.setParameter("description", game.getDescription());
@@ -43,6 +44,7 @@ public class HibernateGameService extends HibernateService implements GameServic
             query.setParameter("gender", game.getGender());
             query.setParameter("screenshot", game.getScreenshot());
             query.setParameter("path", game.getPath());
+            query.setParameter("command", game.getCommand());
             if (query.executeUpdate() == 0)
                 throw new CrudException("Es probable que no se haya eliminado el registro.");
         } catch (Exception e) {
