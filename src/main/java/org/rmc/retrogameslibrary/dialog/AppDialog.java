@@ -16,6 +16,15 @@ public class AppDialog {
         return result.isPresent() && result.get() == ButtonType.OK;
     }
 
+    public static boolean confirmationDialog(String title, String header, String content) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.OK;
+    }
+
     public static void errorDialog(String title, String header) {
         Alert alert = new Alert(AlertType.ERROR);
         alert.setTitle(title);

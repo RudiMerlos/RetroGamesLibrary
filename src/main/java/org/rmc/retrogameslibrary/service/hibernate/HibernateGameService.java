@@ -1,6 +1,7 @@
 package org.rmc.retrogameslibrary.service.hibernate;
 
 import java.util.List;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.rmc.retrogameslibrary.model.Game;
 import org.rmc.retrogameslibrary.model.Platform;
@@ -20,9 +21,11 @@ public class HibernateGameService extends HibernateService implements GameServic
             Platform platform = game.getPlatform();
             platform.addGame(game);
             em.persist(platform);
-            em.getTransaction().commit();
         } catch (Exception e) {
             throw new CrudException("Error de Hibernate", e);
+        } finally {
+            if (em.getTransaction().isActive())
+                em.getTransaction().commit();
         }
     }
 
@@ -30,15 +33,23 @@ public class HibernateGameService extends HibernateService implements GameServic
     public void modify(Game game) throws CrudException {
         try {
             em.getTransaction().begin();
-            int result = em
-                    .createQuery("UPDATE Game g SET g.title, g.description, g.year, g.gender, "
-                            + "g.screenshot, g.path WHERE g.id = :id")
-                    .setParameter("id", game.getId()).executeUpdate();
-            em.getTransaction().commit();
-            if (result == 0)
+            Query query = em.createQuery("UPDATE Game g SET g.title = :title, "
+                + "g.description = :description, g.year = :year, g.gender = :gender, "
+                + "g.screenshot = :screenshot, g.path = :path WHERE g.id = :id");
+            query.setParameter("id", game.getId());
+            query.setParameter("title", game.getTitle());
+            query.setParameter("description", game.getDescription());
+            query.setParameter("year", game.getYear());
+            query.setParameter("gender", game.getGender());
+            query.setParameter("screenshot", game.getScreenshot());
+            query.setParameter("path", game.getPath());
+            if (query.executeUpdate() == 0)
                 throw new CrudException("Es probable que no se haya eliminado el registro.");
         } catch (Exception e) {
             throw new CrudException("Error de Hibernate", e);
+        } finally {
+            if (em.getTransaction().isActive())
+                em.getTransaction().commit();
         }
     }
 
@@ -48,9 +59,11 @@ public class HibernateGameService extends HibernateService implements GameServic
             em.getTransaction().begin();
             Platform platform = game.getPlatform();
             platform.removeGame(game);
-            em.getTransaction().commit();
         } catch (Exception e) {
             throw new CrudException("Error de Hibernate", e);
+        } finally {
+            if (em.getTransaction().isActive())
+                em.getTransaction().commit();
         }
     }
 

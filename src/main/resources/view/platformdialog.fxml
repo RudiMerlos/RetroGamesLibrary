@@ -11,18 +11,19 @@
       <AnchorPane prefHeight="60.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="btnAddPlatform" layoutX="57.0" layoutY="17.0" mnemonicParsing="false" onAction="#onClickBtnAddPlatform" prefHeight="26.0" prefWidth="133.0" text="Añadir" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="17.0" />
-            <Button fx:id="btnEditPlatform" layoutX="334.0" layoutY="17.0" mnemonicParsing="false" onAction="#onClickBtnEditPlatform" prefHeight="26.0" prefWidth="133.0" text="Editar" AnchorPane.bottomAnchor="17.0" AnchorPane.topAnchor="17.0" />
-            <Button fx:id="btnDeletePlatform" layoutX="627.0" layoutY="17.0" mnemonicParsing="false" onAction="#onClickBtnDeletePlatform" prefHeight="26.0" prefWidth="133.0" text="Eliminar" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="17.0" />
+            <Button fx:id="btnEditPlatform" disable="true" layoutX="334.0" layoutY="17.0" mnemonicParsing="false" onAction="#onClickBtnEditPlatform" prefHeight="26.0" prefWidth="133.0" text="Editar" AnchorPane.bottomAnchor="17.0" AnchorPane.topAnchor="17.0" />
+            <Button fx:id="btnDeletePlatform" disable="true" layoutX="627.0" layoutY="17.0" mnemonicParsing="false" onAction="#onClickBtnDeletePlatform" prefHeight="26.0" prefWidth="133.0" text="Eliminar" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="17.0" />
          </children>
       </AnchorPane>
    </bottom>
    <center>
       <TableView fx:id="tablePlatforms" onMouseClicked="#onMouseClickedCol" prefHeight="537.0" prefWidth="800.0" BorderPane.alignment="TOP_CENTER">
         <columns>
-          <TableColumn fx:id="colNamePlatform" minWidth="50.0" prefWidth="198.0" text="Nombre" />
-          <TableColumn fx:id="colModelPlatform" minWidth="50.0" prefWidth="208.0" text="Modelo" />
-            <TableColumn fx:id="colCompanyPlatform" minWidth="50.0" prefWidth="265.0" text="Compañía" />
-            <TableColumn fx:id="colYearPlatform" minWidth="50.0" prefWidth="127.0" text="Año" />
+          <TableColumn fx:id="colNamePlatform" minWidth="50.0" prefWidth="164.0" text="Nombre" />
+          <TableColumn fx:id="colModelPlatform" minWidth="50.0" prefWidth="193.0" text="Modelo" />
+            <TableColumn fx:id="colCompanyPlatform" minWidth="50.0" prefWidth="196.0" text="Compañía" />
+            <TableColumn fx:id="colCountryPlatform" minWidth="50.0" prefWidth="151.0" text="País" />
+            <TableColumn fx:id="colYearPlatform" minWidth="5.0" prefWidth="94.0" text="Año" />
         </columns>
       </TableView>
    </center>

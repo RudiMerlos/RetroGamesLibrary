@@ -10,11 +10,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class PlatformDialogController {
 
@@ -26,6 +31,8 @@ public class PlatformDialogController {
     private TableColumn<Platform, String> colModelPlatform;
     @FXML
     private TableColumn<Platform, String> colCompanyPlatform;
+    @FXML
+    private TableColumn<Platform, String> colCountryPlatform;
     @FXML
     private TableColumn<Platform, Integer> colYearPlatform;
 
@@ -57,7 +64,10 @@ public class PlatformDialogController {
 
         colNamePlatform.setCellValueFactory(new PropertyValueFactory<Platform, String>("name"));
         colModelPlatform.setCellValueFactory(new PropertyValueFactory<Platform, String>("model"));
-        colCompanyPlatform.setCellValueFactory(new PropertyValueFactory<Platform, String>("company"));
+        colCompanyPlatform
+                .setCellValueFactory(new PropertyValueFactory<Platform, String>("company"));
+        colCountryPlatform
+                .setCellValueFactory(new PropertyValueFactory<Platform, String>("country"));
         colYearPlatform.setCellValueFactory(new PropertyValueFactory<Platform, Integer>("year"));
 
         tablePlatforms.setItems(platforms);
@@ -65,21 +75,85 @@ public class PlatformDialogController {
     }
 
     @FXML
-    private void onClickBtnAddPlatform(ActionEvent event) {
+    private void onClickBtnAddPlatform(ActionEvent event) throws IOException {
+        Stage stage = (Stage) btnAddPlatform.getScene().getWindow();
+        platformRegisterWindow(stage).setOnHidden(e -> showPlatforms());
     }
 
     @FXML
-    private void onClickBtnEditPlatform(ActionEvent event) {
-
+    private void onClickBtnEditPlatform(ActionEvent event) throws IOException {
+        editPlatform();
     }
 
     @FXML
     private void onMouseClickedCol(MouseEvent event) throws IOException {
+        Platform platform = tablePlatforms.getSelectionModel().getSelectedItem();
+        if (platform != null) {
+            btnEditPlatform.setDisable(false);
+            btnDeletePlatform.setDisable(false);
+            if (event.getClickCount() > 1)
+                editPlatform();
+        }
+    }
 
+    private void editPlatform() throws IOException {
+        Platform platform = tablePlatforms.getSelectionModel().getSelectedItem();
+        if (platform != null) {
+            Stage stage = (Stage) btnEditPlatform.getScene().getWindow();
+            platformEditWindow(stage, platform).setOnHidden(e -> showPlatforms());
+        }
     }
 
     @FXML
     private void onClickBtnDeletePlatform(ActionEvent event) {
+        Platform platform = tablePlatforms.getSelectionModel().getSelectedItem();
+        if (platform != null) {
+            if (AppDialog.confirmationDialog("Eliminar plataformas",
+                    "¿Estás seguro de que quieres borrar la plataforma " + platform.getName() + " "
+                            + platform.getModel() + "?",
+                    "Ten en cuenta que esta acción eliminará todos los juegos asociados con esta "
+                            + "plataforma.")) {
+                PlatformService platformService = new HibernatePlatformService();
+                try {
+                    platformService.remove(platform);
+                    AppDialog.messageDialog("Eliminar plataformas", "Se ha eliminado la plataforma "
+                            + platform.getName() + " " + platform.getModel() + " con éxito.");
+                    showPlatforms();
+                    btnEditPlatform.setDisable(true);
+                    btnDeletePlatform.setDisable(true);
+                } catch (CrudException e) {
+                    AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
+                }
+            }
+        }
+    }
 
+    private Stage platformRegisterWindow(Stage stage) throws IOException {
+        Stage newStage = new Stage();
+        newStage.initOwner(stage);
+        newStage.initModality(Modality.WINDOW_MODAL);
+        Parent root = FXMLLoader.load(getClass().getResource("/view/platformregisterdialog.fxml"));
+        Scene scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.setTitle("Registro de plataformas");
+        newStage.setResizable(false);
+        newStage.show();
+        return newStage;
+    }
+
+    private Stage platformEditWindow(Stage stage, Platform platform) throws IOException {
+        Stage newStage = new Stage();
+        newStage.initOwner(stage);
+        newStage.initModality(Modality.WINDOW_MODAL);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/platformeditdialog.fxml"));
+        Parent root = loader.load();
+        PlatformEditDialogController controller = loader.getController();
+        controller.init(platform);
+        Scene scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.setTitle("Edición de plataformas");
+        newStage.setResizable(false);
+        newStage.show();
+        return newStage;
     }
 }

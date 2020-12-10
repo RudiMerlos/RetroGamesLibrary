@@ -1,6 +1,7 @@
 package org.rmc.retrogameslibrary.service.hibernate;
 
 import java.util.List;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.rmc.retrogameslibrary.model.Platform;
 import org.rmc.retrogameslibrary.repository.CrudException;
@@ -14,12 +15,15 @@ public class HibernatePlatformService extends HibernateService implements Platfo
 
     @Override
     public void insert(Platform platform) throws CrudException {
-        try{
+        try {
             em.getTransaction().begin();
             em.persist(platform);
-            em.getTransaction().commit();
         } catch (Exception e) {
             throw new CrudException("Error de Hibernate", e);
+        } finally {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().commit();
+            }
         }
     }
 
@@ -27,15 +31,22 @@ public class HibernatePlatformService extends HibernateService implements Platfo
     public void modify(Platform platform) throws CrudException {
         try {
             em.getTransaction().begin();
-            int result = em
-                    .createQuery("UPDATE Game g SET g.title, g.description, g.year, g.gender, "
-                            + "g.screenshot, g.path WHERE g.id = :id")
-                    .setParameter("id", platform.getId()).executeUpdate();
-            em.getTransaction().commit();
-            if (result == 0)
+            Query query = em.createQuery("UPDATE Platform p SET p.name = :name, p.model = :model, "
+                    + "p.company = :company, p.country = :country, p.year = :year WHERE p.id = :id");
+            query.setParameter("id", platform.getId());
+            query.setParameter("name", platform.getName());
+            query.setParameter("model", platform.getModel());
+            query.setParameter("company", platform.getCompany());
+            query.setParameter("country", platform.getCountry());
+            query.setParameter("year", platform.getYear());
+            if (query.executeUpdate() == 0)
                 throw new CrudException("Es probable que no se haya eliminado el registro.");
         } catch (Exception e) {
             throw new CrudException("Error de Hibernate", e);
+        } finally {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().commit();
+            }
         }
     }
 
@@ -43,13 +54,16 @@ public class HibernatePlatformService extends HibernateService implements Platfo
     public void remove(Platform platform) throws CrudException {
         try {
             em.getTransaction().begin();
-            int result = em.createQuery("DELETE FROM Game g WHERE g.id = :id")
+            int result = em.createQuery("DELETE FROM Platform p WHERE p.id = :id")
                     .setParameter("id", platform.getId()).executeUpdate();
-            em.getTransaction().commit();
             if (result == 0)
                 throw new CrudException("Es probable que no se haya eliminado el registro.");
         } catch (Exception e) {
             throw new CrudException("Error de Hibernate", e);
+        } finally {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().commit();
+            }
         }
     }
 
@@ -95,7 +109,8 @@ public class HibernatePlatformService extends HibernateService implements Platfo
     public List<Platform> getByModel(String model) throws CrudException {
         List<Platform> platforms = null;
         try {
-            TypedQuery<Platform> query = em.createNamedQuery("Platform.findByModel", Platform.class);
+            TypedQuery<Platform> query =
+                    em.createNamedQuery("Platform.findByModel", Platform.class);
             query.setParameter("model", model);
             platforms = query.getResultList();
         } catch (Exception e) {
@@ -108,7 +123,8 @@ public class HibernatePlatformService extends HibernateService implements Platfo
     public List<Platform> getByCompany(String company) throws CrudException {
         List<Platform> platforms = null;
         try {
-            TypedQuery<Platform> query = em.createNamedQuery("Platform.findByCompany", Platform.class);
+            TypedQuery<Platform> query =
+                    em.createNamedQuery("Platform.findByCompany", Platform.class);
             query.setParameter("company", company);
             platforms = query.getResultList();
         } catch (Exception e) {
