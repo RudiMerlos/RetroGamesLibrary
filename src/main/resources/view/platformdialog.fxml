@@ -17,12 +17,12 @@
       </AnchorPane>
    </bottom>
    <center>
-      <TableView fx:id="tablePlatforms" prefHeight="537.0" prefWidth="800.0" BorderPane.alignment="TOP_CENTER">
+      <TableView fx:id="tablePlatforms" onMouseClicked="#onMouseClickedCol" prefHeight="537.0" prefWidth="800.0" BorderPane.alignment="TOP_CENTER">
         <columns>
-          <TableColumn fx:id="colNamePlatform" prefWidth="231.0" text="Nombre" />
-          <TableColumn fx:id="colModelPlatform" minWidth="0.0" prefWidth="166.0" text="Modelo" />
-            <TableColumn fx:id="colCompanyPlatform" prefWidth="274.0" text="Compañía" />
-            <TableColumn fx:id="colYearPlatform" prefWidth="128.0" text="Año" />
+          <TableColumn fx:id="colNamePlatform" minWidth="50.0" prefWidth="198.0" text="Nombre" />
+          <TableColumn fx:id="colModelPlatform" minWidth="50.0" prefWidth="208.0" text="Modelo" />
+            <TableColumn fx:id="colCompanyPlatform" minWidth="50.0" prefWidth="265.0" text="Compañía" />
+            <TableColumn fx:id="colYearPlatform" minWidth="50.0" prefWidth="127.0" text="Año" />
         </columns>
       </TableView>
    </center>

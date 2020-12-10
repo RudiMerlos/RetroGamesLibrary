@@ -69,7 +69,7 @@ public class UserEditDialogController {
                     userService.modify(user);
                     AppDialog.messageDialog("Edición de usuarios",
                             "Usuario " + user.getEmail() + " modificado con éxito.");
-                    Stage stage = (Stage) btnCancel.getScene().getWindow();
+                    Stage stage = (Stage) btnOk.getScene().getWindow();
                     stage.close();
                 } catch (CrudException e) {
                     AppDialog.errorDialog(e.getMessage(), e.getCause().toString());

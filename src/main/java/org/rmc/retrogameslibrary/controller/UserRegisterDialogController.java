@@ -55,7 +55,7 @@ public class UserRegisterDialogController {
                     userService.insert(user);
                     AppDialog.messageDialog("Creación de usuarios",
                             "Usuario " + email + " creado con éxito.");
-                    Stage stage = (Stage) btnCancel.getScene().getWindow();
+                    Stage stage = (Stage) btnOk.getScene().getWindow();
                     stage.close();
                 } catch (CrudException e) {
                     AppDialog.errorDialog(e.getMessage(), e.getCause().toString());

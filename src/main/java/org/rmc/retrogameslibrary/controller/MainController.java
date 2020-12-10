@@ -87,6 +87,8 @@ public class MainController {
     public void initialize() {
         Properties properties = PropertiesConfig.readProperties();
         lblUser.setText(properties.getProperty(PropertiesConfig.CURRENT_USER));
+
+        tableGames.setPlaceholder(new Label("No hay juegos disponibles."));
     }
 
     @FXML
