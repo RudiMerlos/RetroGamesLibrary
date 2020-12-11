@@ -59,12 +59,12 @@ public class Game implements Serializable {
     @ManyToOne(optional = false)
     private Platform platform;
 
-    public Game(String title, String description, int year, String gendre, String screenshot,
+    public Game(String title, String description, int year, String gender, String screenshot,
             String path, String command, Platform platform) {
         this.title = title;
         this.description = description;
         this.year = year;
-        this.gender = gendre;
+        this.gender = gender;
         this.screenshot = screenshot;
         this.path = path;
         this.command = command;

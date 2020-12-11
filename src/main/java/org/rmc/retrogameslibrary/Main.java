@@ -39,6 +39,7 @@ public class Main extends Application {
                     AppDialog.warningDialog("Error de MySQL",
                             "No se ha podido cerrar la conexión a la base de datos de usuarios.");
                 }
+                HibernateConnection.getInstance().closeConnection();
                 javafx.application.Platform.exit();
             }
         });

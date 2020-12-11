@@ -6,8 +6,13 @@ import java.util.Properties;
 import org.rmc.retrogameslibrary.config.PropertiesConfig;
 import org.rmc.retrogameslibrary.dialog.AppDialog;
 import org.rmc.retrogameslibrary.model.Game;
+import org.rmc.retrogameslibrary.repository.CrudException;
+import org.rmc.retrogameslibrary.service.GameService;
+import org.rmc.retrogameslibrary.service.hibernate.HibernateGameService;
 import org.rmc.retrogameslibrary.service.jdbc.MysqlConnection;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +24,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -89,11 +96,36 @@ public class MainController {
         lblUser.setText(properties.getProperty(PropertiesConfig.CURRENT_USER));
 
         tableGames.setPlaceholder(new Label("No hay juegos disponibles."));
+        showGames();
+    }
+
+    private ObservableList<Game> getGameList() {
+        GameService gameService = new HibernateGameService();
+        ObservableList<Game> gameList = FXCollections.observableArrayList();
+        try {
+            gameList.setAll(gameService.getAll());
+        } catch (CrudException e) {
+            AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
+        }
+        return gameList;
+    }
+
+    private void showGames() {
+        ObservableList<Game> games = getGameList();
+
+        colTitleGame.setCellValueFactory(new PropertyValueFactory<Game, String>("title"));
+        colPlatformGame.setCellValueFactory(new PropertyValueFactory<Game, String>("platform"));
+        colYearGame.setCellValueFactory(new PropertyValueFactory<Game, Integer>("year"));
+        colGenderGame.setCellValueFactory(new PropertyValueFactory<Game, String>("gender"));
+
+        tableGames.setItems(games);
+        tableGames.refresh();
     }
 
     @FXML
-    private void onClickAddNewGame(ActionEvent event) {
-
+    private void onClickAddNewGame(ActionEvent event) throws IOException {
+        Stage stage = (Stage) btnAddNewGame.getScene().getWindow();
+        gameRegisterWindow(stage).setOnHidden(e -> showGames());
     }
 
     @FXML
@@ -134,6 +166,11 @@ public class MainController {
 
     @FXML
     private void onClickEditGame(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void onMouseClickedCol(MouseEvent event) {
 
     }
 
@@ -193,5 +230,18 @@ public class MainController {
     @FXML
     private void onTextChangedTxtSearch(ActionEvent event) {
 
+    }
+
+    private Stage gameRegisterWindow(Stage stage) throws IOException {
+        Stage newStage = new Stage();
+        newStage.initOwner(stage);
+        newStage.initModality(Modality.WINDOW_MODAL);
+        Parent root = FXMLLoader.load(getClass().getResource("/view/gameregisterdialog.fxml"));
+        Scene scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.setTitle("Registro de juegos");
+        newStage.setResizable(false);
+        newStage.show();
+        return newStage;
     }
 }

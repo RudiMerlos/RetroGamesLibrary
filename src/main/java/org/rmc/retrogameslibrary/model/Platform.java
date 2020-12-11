@@ -31,7 +31,9 @@ import lombok.NoArgsConstructor;
         @NamedQuery(name = "Platform.findByCompany",
                 query = "SELECT p FROM Platform p WHERE p.company LIKE :company"),
         @NamedQuery(name = "Platform.findByYear",
-                query = "SELECT p FROM Platform p WHERE p.year = :year")})
+                query = "SELECT p FROM Platform p WHERE p.year = :year"),
+        @NamedQuery(name = "Platform.findByNameAndModel",
+                query = "SELECT p FROM Platform p WHERE p.name LIKE :name AND p.model LIKE :model")})
 public class Platform implements Serializable {
 
     private static final long serialVersionUID = 1L;

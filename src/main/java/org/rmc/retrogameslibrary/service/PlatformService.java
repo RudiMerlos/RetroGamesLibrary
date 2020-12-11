@@ -14,4 +14,6 @@ public interface PlatformService extends CrudRepository<Platform, Long> {
     List<Platform> getByCompany(String company) throws CrudException;
 
     List<Platform> getByYear(int year) throws CrudException;
+
+    Platform getByNameAndModel(String name, String model) throws CrudException;
 }

@@ -145,4 +145,19 @@ public class HibernatePlatformService extends HibernateService implements Platfo
         }
         return platforms;
     }
+
+    @Override
+    public Platform getByNameAndModel(String name, String model) throws CrudException {
+        Platform platform = null;
+        try {
+            TypedQuery<Platform> query =
+                    em.createNamedQuery("Game.findByNameAndModel", Platform.class);
+            query.setParameter("name", name);
+            query.setParameter("model", model);
+            platform = query.getSingleResult();
+        } catch (Exception e) {
+            throw new CrudException("Error de Hibernate", e);
+        }
+        return platform;
+    }
 }
