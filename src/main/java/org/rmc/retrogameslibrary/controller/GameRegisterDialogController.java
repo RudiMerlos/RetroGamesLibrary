@@ -111,9 +111,9 @@ public class GameRegisterDialogController {
         String strYear = txtYearGame.getText();
         String gender = txtGenderGame.getText();
         String command = txtCommandGame.getText();
-        String path = gameFile.getAbsolutePath();
+        String path = (gameFile != null ? gameFile.getAbsolutePath() : null);
         String strPlatform = cmbPlatformGame.getSelectionModel().getSelectedItem();
-        String screenshot = imgFile.getAbsolutePath();
+        String screenshot = (imgFile != null ? imgFile.getAbsolutePath() : null);
 
         if (!title.isEmpty() && !strPlatform.isEmpty()) {
             if (!strYear.isEmpty() && !yearIsValid(strYear)) {

@@ -54,10 +54,7 @@ public class HibernatePlatformService extends HibernateService implements Platfo
     public void remove(Platform platform) throws CrudException {
         try {
             em.getTransaction().begin();
-            int result = em.createQuery("DELETE FROM Platform p WHERE p.id = :id")
-                    .setParameter("id", platform.getId()).executeUpdate();
-            if (result == 0)
-                throw new CrudException("Es probable que no se haya eliminado el registro.");
+            em.remove(em.find(Platform.class, platform.getId()));
         } catch (Exception e) {
             throw new CrudException("Error de Hibernate", e);
         } finally {

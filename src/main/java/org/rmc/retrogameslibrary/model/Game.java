@@ -3,6 +3,7 @@ package org.rmc.retrogameslibrary.model;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -56,10 +57,10 @@ public class Game implements Serializable {
     @Column
     private String command;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Platform platform;
 
-    public Game(String title, String description, int year, String gender, String screenshot,
+    public Game(String title, String description, Integer year, String gender, String screenshot,
             String path, String command, Platform platform) {
         this.title = title;
         this.description = description;
