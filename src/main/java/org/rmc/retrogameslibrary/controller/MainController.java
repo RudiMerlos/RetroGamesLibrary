@@ -165,18 +165,48 @@ public class MainController {
     }
 
     @FXML
-    private void onClickEditGame(ActionEvent event) {
-
+    private void onClickEditGame(ActionEvent event) throws IOException {
+        editGame();
     }
 
     @FXML
-    private void onMouseClickedCol(MouseEvent event) {
+    private void onMouseClickedCol(MouseEvent event) throws IOException {
+        Game game = tableGames.getSelectionModel().getSelectedItem();
+        if (game != null) {
+            menuEditGame.setDisable(false);
+            menuDelete.setDisable(false);
+            if (event.getClickCount() > 1)
+                editGame();
+        }
+    }
 
+    private void editGame() throws IOException {
+        Game game = tableGames.getSelectionModel().getSelectedItem();
+        if (game != null) {
+            Stage stage = (Stage) btnAddNewGame.getScene().getWindow();
+            gameEditWindow(stage, game).setOnHidden(e -> showGames());
+        }
     }
 
     @FXML
     private void onClickDeleteGame(ActionEvent event) {
-
+        Game game = tableGames.getSelectionModel().getSelectedItem();
+        if (game != null) {
+            if (AppDialog.confirmationDialog("Eliminar juegos",
+                    "¿Estás seguro de que quieres borrar el juego " + game.getTitle() + "?")) {
+                GameService gameService = new HibernateGameService();
+                try {
+                    gameService.remove(game);
+                    AppDialog.messageDialog("Eliminar juegos",
+                            "Se ha eliminado el juego " + game.getTitle() + " con éxito.");
+                    showGames();
+                    menuEditGame.setDisable(true);
+                    menuDelete.setDisable(true);
+                } catch (CrudException e) {
+                    AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
+                }
+            }
+        }
     }
 
     @FXML
@@ -240,6 +270,22 @@ public class MainController {
         Scene scene = new Scene(root);
         newStage.setScene(scene);
         newStage.setTitle("Registro de juegos");
+        newStage.setResizable(false);
+        newStage.show();
+        return newStage;
+    }
+
+    private Stage gameEditWindow(Stage stage, Game game) throws IOException {
+        Stage newStage = new Stage();
+        newStage.initOwner(stage);
+        newStage.initModality(Modality.WINDOW_MODAL);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/gameeditdialog.fxml"));
+        Parent root = loader.load();
+        GameEditDialogController controller = loader.getController();
+        controller.init(game);
+        Scene scene = new Scene(root);
+        newStage.setScene(scene);
+        newStage.setTitle("Edición de juegos");
         newStage.setResizable(false);
         newStage.show();
         return newStage;

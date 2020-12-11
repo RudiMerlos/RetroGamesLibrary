@@ -78,4 +78,9 @@ public class Platform implements Serializable {
         games.remove(game);
         game.setPlatform(null);
     }
+
+    @Override
+    public String toString() {
+        return this.name + " - " + this.model;
+    }
 }

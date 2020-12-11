@@ -27,7 +27,7 @@
       <Label layoutX="60.0" layoutY="360.0" text="Lanzador" />
       <TextField fx:id="txtCommandGame" layoutX="60.0" layoutY="380.0" prefHeight="26.0" prefWidth="380.0" />
       <Button fx:id="btnSelectGame" layoutX="60.0" layoutY="425.0" mnemonicParsing="false" onAction="#onClickBtnSelectGame" prefHeight="40.0" prefWidth="164.0" text="Seleccionar juego" />
-      <Label fx:id="lblPathGame" layoutX="248.0" layoutY="437.0" text="Ningún juego seleccionado" />
+      <Label fx:id="lblPathGame" layoutX="248.0" layoutY="437.0" maxWidth="500.0" text="Ningún juego seleccionado" />
       <Label layoutX="470.0" layoutY="90.0" text="Plataforma*" />
       <ComboBox fx:id="cmbPlatformGame" layoutX="470.0" layoutY="110.0" prefHeight="26.0" prefWidth="280.0" />
       <Button fx:id="btnSelectImgGame" layoutX="470.0" layoutY="170.0" mnemonicParsing="false" onAction="#onClickBtnSelectImgGame" prefHeight="40.0" prefWidth="164.0" text="Seleccionar imagen" />

@@ -151,7 +151,7 @@ public class HibernatePlatformService extends HibernateService implements Platfo
         Platform platform = null;
         try {
             TypedQuery<Platform> query =
-                    em.createNamedQuery("Game.findByNameAndModel", Platform.class);
+                    em.createNamedQuery("Platform.findByNameAndModel", Platform.class);
             query.setParameter("name", name);
             query.setParameter("model", model);
             platform = query.getSingleResult();

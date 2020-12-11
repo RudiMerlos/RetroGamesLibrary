@@ -51,11 +51,11 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Editar">
             <items>
-                  <MenuItem fx:id="menuEditGame" mnemonicParsing="false" onAction="#onClickEditGame" text="Editar juego">
+                  <MenuItem fx:id="menuEditGame" disable="true" mnemonicParsing="false" onAction="#onClickEditGame" text="Editar juego">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
-              <MenuItem fx:id="menuDelete" mnemonicParsing="false" onAction="#onClickDeleteGame" text="Eliminar juego">
+              <MenuItem fx:id="menuDelete" disable="true" mnemonicParsing="false" onAction="#onClickDeleteGame" text="Eliminar juego">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="DELETE" control="UP" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
@@ -105,10 +105,10 @@
                <children>
                   <TableView fx:id="tableGames" onMouseClicked="#onMouseClickedCol" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn fx:id="colTitleGame" minWidth="100.0" prefWidth="432.0" text="Título" />
-                        <TableColumn fx:id="colPlatformGame" minWidth="80.0" prefWidth="194.0" text="Plataforma" />
-                        <TableColumn fx:id="colYearGame" minWidth="50.0" prefWidth="124.0" text="Año" />
-                        <TableColumn fx:id="colGenderGame" minWidth="50.0" prefWidth="248.0" text="Género" />
+                      <TableColumn fx:id="colTitleGame" minWidth="100.0" prefWidth="360.0" text="Título" />
+                        <TableColumn fx:id="colPlatformGame" minWidth="80.0" prefWidth="260.0" text="Plataforma" />
+                        <TableColumn fx:id="colYearGame" minWidth="50.0" prefWidth="120.0" text="Año" />
+                        <TableColumn fx:id="colGenderGame" minWidth="50.0" prefWidth="258.0" text="Género" />
                     </columns>
                   </TableView>
                </children>

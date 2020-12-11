@@ -42,7 +42,7 @@ public class Game implements Serializable {
     private String description;
 
     @Column(columnDefinition = "YEAR")
-    private int year;
+    private Integer year;
 
     @Column(columnDefinition = "VARCHAR(50)")
     private String gender;

@@ -1,11 +1,16 @@
 package org.rmc.retrogameslibrary.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import org.rmc.retrogameslibrary.dialog.AppDialog;
 import org.rmc.retrogameslibrary.model.Game;
 import org.rmc.retrogameslibrary.model.Platform;
 import org.rmc.retrogameslibrary.repository.CrudException;
+import org.rmc.retrogameslibrary.service.GameService;
 import org.rmc.retrogameslibrary.service.PlatformService;
+import org.rmc.retrogameslibrary.service.hibernate.HibernateGameService;
 import org.rmc.retrogameslibrary.service.hibernate.HibernatePlatformService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,7 +21,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class GameRegisterDialogController {
@@ -48,6 +56,9 @@ public class GameRegisterDialogController {
     @FXML
     private Button btnSave;
 
+    private File gameFile = null;
+    private File imgFile = null;
+
     @FXML
     public void initialize() {
         cmbPlatformGame.setItems(getPlatformList());
@@ -69,12 +80,22 @@ public class GameRegisterDialogController {
 
     @FXML
     private void onClickBtnSelectGame(ActionEvent event) {
-
+        Stage stage = (Stage) btnSelectGame.getScene().getWindow();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar juego");
+        gameFile = fileChooser.showOpenDialog(stage);
+        lblPathGame.setText(gameFile.getAbsolutePath());
     }
 
     @FXML
-    private void onClickBtnSelectImgGame(ActionEvent event) {
-
+    private void onClickBtnSelectImgGame(ActionEvent event) throws IOException {
+        Stage stage = (Stage) btnSelectImgGame.getScene().getWindow();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(
+                new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.giff"));
+        fileChooser.setTitle("Seleccionar imagen");
+        imgFile = fileChooser.showOpenDialog(stage);
+        imgScreenshotGame.setImage(new Image(Files.newInputStream(imgFile.toPath())));
     }
 
     @FXML
@@ -90,22 +111,25 @@ public class GameRegisterDialogController {
         String strYear = txtYearGame.getText();
         String gender = txtGenderGame.getText();
         String command = txtCommandGame.getText();
+        String path = gameFile.getAbsolutePath();
         String strPlatform = cmbPlatformGame.getSelectionModel().getSelectedItem();
+        String screenshot = imgFile.getAbsolutePath();
 
         if (!title.isEmpty() && !strPlatform.isEmpty()) {
-            if (!yearIsValid(strYear)) {
+            if (!strYear.isEmpty() && !yearIsValid(strYear)) {
                 AppDialog.errorDialog("Error en el año", "Debes de introducir un año válido.");
             } else {
-                int year = Integer.parseInt(strYear);
+                Integer year = strYear.isEmpty() ? null : Integer.parseInt(strYear);
                 String[] splitPlatform = strPlatform.split("-");
                 String name = splitPlatform[0].trim();
                 String model = splitPlatform[1].trim();
                 PlatformService platformService = new HibernatePlatformService();
-                Game game = null;
+                GameService gameService = new HibernateGameService();
                 try {
                     Platform platform = platformService.getByNameAndModel(name, model);
-                    game = new Game(title, description, year, gender, "", "", command, platform);
-                    platform.addGame(game);
+                    Game game = new Game(title, description, year, gender, screenshot, path,
+                            command, platform);
+                    gameService.insert(game);
                     AppDialog.messageDialog("Creación de juegos",
                             "Juego " + title + " creado con éxito.");
                     Stage stage = (Stage) btnSave.getScene().getWindow();
