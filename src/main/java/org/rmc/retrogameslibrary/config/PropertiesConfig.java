@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
+import org.rmc.retrogameslibrary.dialog.AppDialog;
 
 public class PropertiesConfig {
 
@@ -20,6 +21,10 @@ public class PropertiesConfig {
     public static final String MYSQL_USER = "mysql_user";
     public static final String MYSQL_PASSWORD = "mysql_password";
     public static final String MYSQL_DATABASE = "mysql_datatbase";
+
+    // FileChooser last paths properties
+    public static final String GAME_ROM_LAST_PATH = "game_rom_last_path";
+    public static final String GAME_IMG_LAST_PATH = "game_img_last_path";
 
     private static Properties properties = new Properties();
 
@@ -40,29 +45,41 @@ public class PropertiesConfig {
         return result;
     }
 
-    // Writes users database properties into properties file
+    // Writes properties into properties file
+    private static void saveProperties() {
+        try {
+            properties.store(Files.newOutputStream(PROPERTIES_PATH),
+                    "Retro Games Library Properties");
+        } catch (IOException e) {
+            AppDialog.errorDialog("Error al guardar la configuración", e.getCause().toString());
+        }
+    }
+
+    // Sets users database properties
     public static void writeDatabaseProperties(String host, String user, String pass, String db) {
         properties.setProperty(MYSQL_HOST, host);
         properties.setProperty(MYSQL_USER, user);
         properties.setProperty(MYSQL_PASSWORD, pass);
         properties.setProperty(MYSQL_DATABASE, db);
-        try {
-            properties.store(Files.newOutputStream(PROPERTIES_PATH),
-                    "Retro Games Library Properties");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        saveProperties();
     }
 
-    // Writes current user properties into properties file
+    // Sets current user properties
     public static void writeCurrentUserProperties(String currentUser) {
         properties.setProperty(CURRENT_USER, currentUser);
-        try {
-            properties.store(Files.newOutputStream(PROPERTIES_PATH),
-                    "Retro Games Library Properties");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        saveProperties();
+    }
+
+    // Sets FileChooser game rom last path
+    public static void writeGameLastPathProperties(String lastPath) {
+        properties.setProperty(GAME_ROM_LAST_PATH, lastPath);
+        saveProperties();
+    }
+
+    // Writes FileChooser game img last path into properties file
+    public static void writeImgLastPathProperites(String lastPath) {
+        properties.setProperty(GAME_IMG_LAST_PATH, lastPath);
+        saveProperties();
     }
 
     // Reads properties
