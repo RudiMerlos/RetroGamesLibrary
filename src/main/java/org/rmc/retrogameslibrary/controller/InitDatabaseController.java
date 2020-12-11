@@ -62,7 +62,7 @@ public class InitDatabaseController {
 
     private void initLoginWindow(Stage stage) throws IOException {
         Parent root = FXMLLoader
-                .load(getClass().getResource("/view/userdialog.fxml"));
+                .load(getClass().getResource("/view/logindialog.fxml"));
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
