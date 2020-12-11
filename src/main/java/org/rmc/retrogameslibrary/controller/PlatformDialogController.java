@@ -133,8 +133,7 @@ public class PlatformDialogController {
         newStage.initOwner(stage);
         newStage.initModality(Modality.WINDOW_MODAL);
         Parent root = FXMLLoader.load(getClass().getResource("/view/platformregisterdialog.fxml"));
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
+        newStage.setScene(new Scene(root));
         newStage.setTitle("Registro de plataformas");
         newStage.setResizable(false);
         newStage.show();
@@ -149,8 +148,7 @@ public class PlatformDialogController {
         Parent root = loader.load();
         PlatformEditDialogController controller = loader.getController();
         controller.init(platform);
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
+        newStage.setScene(new Scene(root));
         newStage.setTitle("Edición de plataformas");
         newStage.setResizable(false);
         newStage.show();

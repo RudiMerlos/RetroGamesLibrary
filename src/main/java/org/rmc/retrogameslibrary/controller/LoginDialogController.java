@@ -81,9 +81,7 @@ public class LoginDialogController {
     private void initMainWindow(Stage stage) throws IOException {
         Parent root = FXMLLoader
                 .load(getClass().getResource("/view/mainwindow.fxml"));
-
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
+        stage.setScene(new Scene(root));
         stage.setTitle("Retro Games Library");
         stage.setMinWidth(900);
         stage.setMinHeight(700);
@@ -96,8 +94,7 @@ public class LoginDialogController {
         newStage.initOwner(stage);
         newStage.initModality(Modality.WINDOW_MODAL);
         Parent root = FXMLLoader.load( getClass().getResource("/view/userregisterdialog.fxml"));
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
+        newStage.setScene(new Scene(root));
         newStage.setTitle("Registro de usuarios");
         newStage.setResizable(false);
         newStage.show();

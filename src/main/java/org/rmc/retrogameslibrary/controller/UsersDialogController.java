@@ -133,8 +133,7 @@ public class UsersDialogController {
         newStage.initOwner(stage);
         newStage.initModality(Modality.WINDOW_MODAL);
         Parent root = FXMLLoader.load(getClass().getResource("/view/userregisterdialog.fxml"));
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
+        newStage.setScene(new Scene(root));
         newStage.setTitle("Registro de usuarios");
         newStage.setResizable(false);
         newStage.show();
@@ -149,8 +148,7 @@ public class UsersDialogController {
         Parent root = loader.load();
         UserEditDialogController controller = loader.getController();
         controller.init(user);
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
+        newStage.setScene(new Scene(root));
         newStage.setTitle("Edición de usuarios");
         newStage.setResizable(false);
         newStage.show();

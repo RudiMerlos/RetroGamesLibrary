@@ -1,7 +1,6 @@
 package org.rmc.retrogameslibrary;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import org.rmc.retrogameslibrary.config.PropertiesConfig;
@@ -13,6 +12,7 @@ import org.rmc.retrogameslibrary.service.hibernate.HibernateConnection;
 import org.rmc.retrogameslibrary.service.hibernate.HibernatePlatformService;
 import org.rmc.retrogameslibrary.service.jdbc.MysqlConnection;
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,13 +20,17 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    public static HostServices hostServices;
+
     public static void main(String[] args) {
         Application.launch(args);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root;
+        hostServices = getHostServices();
+
+        Parent root = null;
         Properties properties = PropertiesConfig.readProperties();
 
         stage.setOnCloseRequest(event -> {
@@ -62,11 +66,7 @@ public class Main extends Application {
                     root = FXMLLoader.load(getClass().getResource("/view/mainwindow.fxml"));
                     stage.setTitle("Retro Games Library");
                 }
-
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
                 stage.setResizable(false);
-                stage.show();
             } catch (SQLException e) {
                 AppDialog.errorDialog("User Database Error",
                         "No se ha podido conectar a la base de datos.",
@@ -74,12 +74,10 @@ public class Main extends Application {
             }
         } else {
             root = FXMLLoader.load(getClass().getResource("/view/initdatabase.fxml"));
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
             stage.setTitle("Configuración de la base de datos");
-            stage.show();
         }
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     private void initPlatforms() {
@@ -96,7 +94,7 @@ public class Main extends Application {
 
     private void fillPlatforms() {
         PlatformService platformService = new HibernatePlatformService();
-        List<Platform> platforms = Arrays.asList(
+        List<Platform> platforms = List.of(
             new Platform("Nintendo", "NES", "Nintendo Company Ltd", "Japón", 1889),
             new Platform("Sega", "Master System II", "Sega Corporation", "Japón", 1960),
             new Platform("Amstrad", "CPC 6128", "Amstrad", "UK", 1968),

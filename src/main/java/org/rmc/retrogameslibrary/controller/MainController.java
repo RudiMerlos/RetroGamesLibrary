@@ -171,8 +171,7 @@ public class MainController {
         PropertiesConfig.writeCurrentUserProperties("");
         Stage stage = (Stage) btnAddNewGame.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/view/logindialog.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
+        stage.setScene(new Scene(root));
         stage.setTitle("Login");
         stage.setResizable(false);
         stage.show();
@@ -257,8 +256,7 @@ public class MainController {
         newStage.initOwner(thisStage);
         newStage.initModality(Modality.WINDOW_MODAL);
         Parent root = FXMLLoader.load(getClass().getResource("/view/platformdialog.fxml"));
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
+        newStage.setScene(new Scene(root));
         newStage.setTitle("Platforms");
         newStage.setResizable(false);
         newStage.show();
@@ -271,8 +269,7 @@ public class MainController {
         newStage.initOwner(thisStage);
         newStage.initModality(Modality.WINDOW_MODAL);
         Parent root = FXMLLoader.load(getClass().getResource("/view/usersdialog.fxml"));
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
+        newStage.setScene(new Scene(root));
         newStage.setTitle("Users");
         newStage.setResizable(false);
         newStage.show();
@@ -289,8 +286,16 @@ public class MainController {
     }
 
     @FXML
-    private void onClickAbout(ActionEvent event) {
-
+    private void onClickAbout(ActionEvent event) throws IOException {
+        Stage stage = (Stage) btnAddNewGame.getScene().getWindow();
+        Stage newStage = new Stage();
+        newStage.initOwner(stage);
+        newStage.initModality(Modality.WINDOW_MODAL);
+        Parent root = FXMLLoader.load(getClass().getResource("/view/aboutwindow.fxml"));
+        newStage.setScene(new Scene(root));
+        newStage.setTitle("Acerca de Retro Games Library");
+        newStage.setResizable(false);
+        newStage.show();
     }
 
     @FXML
@@ -308,8 +313,7 @@ public class MainController {
         newStage.initOwner(stage);
         newStage.initModality(Modality.WINDOW_MODAL);
         Parent root = FXMLLoader.load(getClass().getResource("/view/gameregisterdialog.fxml"));
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
+        newStage.setScene(new Scene(root));
         newStage.setTitle("Registro de juegos");
         newStage.setResizable(false);
         newStage.show();
@@ -324,8 +328,7 @@ public class MainController {
         Parent root = loader.load();
         GameEditDialogController controller = loader.getController();
         controller.init(game);
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
+        newStage.setScene(new Scene(root));
         newStage.setTitle("Edición de juegos");
         newStage.setResizable(false);
         newStage.show();
