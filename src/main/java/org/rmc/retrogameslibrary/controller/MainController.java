@@ -1,6 +1,8 @@
 package org.rmc.retrogameslibrary.controller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.Properties;
 import org.rmc.retrogameslibrary.config.PropertiesConfig;
@@ -25,7 +27,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -122,6 +127,29 @@ public class MainController {
         tableGames.refresh();
     }
 
+    private void showDetails(Game game) {
+        try {
+            imgPhotoDetails
+                    .setImage(new Image(Files.newInputStream(Paths.get(game.getScreenshot()))));
+        } catch (Exception e) {
+            imgPhotoDetails.setImage(null);
+        }
+        lblTitleDetails.setText(game.getTitle());
+        lblPlatformDetails.setText(game.getPlatform().toString());
+        lblGenderDetails.setText(game.getGender());
+        lblYearDetails.setText(game.getYear() == null ? "" : game.getYear().toString());
+        lblDescriptionDetails.setText(game.getDescription());
+    }
+
+    private void resetDetails() {
+        imgPhotoDetails.setImage(null);
+        lblTitleDetails.setText("");
+        lblPlatformDetails.setText("");
+        lblGenderDetails.setText("");
+        lblYearDetails.setText("");
+        lblDescriptionDetails.setText("");
+    }
+
     @FXML
     private void onClickAddNewGame(ActionEvent event) throws IOException {
         Stage stage = (Stage) btnAddNewGame.getScene().getWindow();
@@ -173,6 +201,7 @@ public class MainController {
     private void onMouseClickedCol(MouseEvent event) throws IOException {
         Game game = tableGames.getSelectionModel().getSelectedItem();
         if (game != null) {
+            showDetails(game);
             menuEditGame.setDisable(false);
             menuDelete.setDisable(false);
             if (event.getClickCount() > 1)
@@ -180,11 +209,22 @@ public class MainController {
         }
     }
 
+    @FXML
+    private void onKeyReleasedTableGames(KeyEvent event) {
+        if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN) {
+            Game game = tableGames.getSelectionModel().getSelectedItem();
+            showDetails(game);
+        }
+    }
+
     private void editGame() throws IOException {
         Game game = tableGames.getSelectionModel().getSelectedItem();
         if (game != null) {
             Stage stage = (Stage) btnAddNewGame.getScene().getWindow();
-            gameEditWindow(stage, game).setOnHidden(e -> showGames());
+            gameEditWindow(stage, game).setOnHidden(e -> {
+                showGames();
+                showDetails(game);
+            });
         }
     }
 
@@ -200,6 +240,7 @@ public class MainController {
                     AppDialog.messageDialog("Eliminar juegos",
                             "Se ha eliminado el juego " + game.getTitle() + " con éxito.");
                     showGames();
+                    resetDetails();
                     menuEditGame.setDisable(true);
                     menuDelete.setDisable(true);
                 } catch (CrudException e) {
