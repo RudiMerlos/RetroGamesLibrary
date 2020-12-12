@@ -119,7 +119,7 @@
                <right>
                   <HBox prefHeight="66.0" prefWidth="334.0" BorderPane.alignment="CENTER">
                      <children>
-                        <TextField fx:id="txtSearch" onInputMethodTextChanged="#onTextChangedTxtSearch" prefHeight="26.0" prefWidth="206.0" promptText="Search">
+                        <TextField fx:id="txtSearch" prefHeight="26.0" prefWidth="206.0" promptText="Search">
                            <HBox.margin>
                               <Insets left="60.0" />
                            </HBox.margin>

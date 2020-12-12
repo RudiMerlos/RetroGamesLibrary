@@ -145,4 +145,16 @@ public class HibernateGameService extends HibernateService implements GameServic
         }
         return games;
     }
+
+    public List<Game> searchByTitle(String title) throws CrudException {
+        List<Game> games = null;
+        try {
+            TypedQuery<Game> query = em.createNamedQuery("Game.searchByTitle", Game.class);
+            query.setParameter("title", title);
+            games = query.getResultList();
+        } catch (Exception e) {
+            throw new CrudException("Error de Hibernate", e);
+        }
+        return games;
+    }
 }

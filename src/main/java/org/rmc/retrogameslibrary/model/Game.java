@@ -27,7 +27,9 @@ import lombok.NoArgsConstructor;
         @NamedQuery(name = "Game.findByGender",
                 query = "SELECT g FROM Game g WHERE g.gender LIKE :gender"),
         @NamedQuery(name = "Game.findByPlatform",
-                query = "SELECT g FROM Game g WHERE g.platform LIKE :platform")})
+                query = "SELECT g FROM Game g WHERE g.platform LIKE :platform"),
+        @NamedQuery(name = "Game.searchByTitle",
+                query = "SELECT g FROM Game g WHERE LOWER(g.title) LIKE :title")})
 public class Game implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 import org.rmc.retrogameslibrary.config.PropertiesConfig;
 import org.rmc.retrogameslibrary.dialog.AppDialog;
@@ -101,7 +102,25 @@ public class MainController {
         lblUser.setText(properties.getProperty(PropertiesConfig.CURRENT_USER));
 
         tableGames.setPlaceholder(new Label("No hay juegos disponibles."));
-        showGames();
+        showGames(getGameList());
+
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            System.out.println("Text changed");
+            String title = txtSearch.getText();
+            List<Game> games = null;
+            HibernateGameService gameService = new HibernateGameService();
+            try {
+                games = gameService.searchByTitle("%" + title + "%");
+            } catch (CrudException e) {
+                AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
+            }
+            if (games != null) {
+                ObservableList<Game> gameList = FXCollections.observableArrayList();
+                gameList.setAll(games);
+                showGames(gameList);
+                resetDetails();
+            }
+        });
     }
 
     private ObservableList<Game> getGameList() {
@@ -115,9 +134,7 @@ public class MainController {
         return gameList;
     }
 
-    private void showGames() {
-        ObservableList<Game> games = getGameList();
-
+    private void showGames(ObservableList<Game> games) {
         colTitleGame.setCellValueFactory(new PropertyValueFactory<Game, String>("title"));
         colPlatformGame.setCellValueFactory(new PropertyValueFactory<Game, String>("platform"));
         colYearGame.setCellValueFactory(new PropertyValueFactory<Game, Integer>("year"));
@@ -153,7 +170,7 @@ public class MainController {
     @FXML
     private void onClickAddNewGame(ActionEvent event) throws IOException {
         Stage stage = (Stage) btnAddNewGame.getScene().getWindow();
-        gameRegisterWindow(stage).setOnHidden(e -> showGames());
+        gameRegisterWindow(stage).setOnHidden(e -> showGames(getGameList()));
     }
 
     @FXML
@@ -221,7 +238,7 @@ public class MainController {
         if (game != null) {
             Stage stage = (Stage) btnAddNewGame.getScene().getWindow();
             gameEditWindow(stage, game).setOnHidden(e -> {
-                showGames();
+                showGames(getGameList());
                 showDetails(game);
             });
         }
@@ -238,7 +255,7 @@ public class MainController {
                     gameService.remove(game);
                     AppDialog.messageDialog("Eliminar juegos",
                             "Se ha eliminado el juego " + game.getTitle() + " con éxito.");
-                    showGames();
+                    showGames(getGameList());
                     resetDetails();
                     menuEditGame.setDisable(true);
                     menuDelete.setDisable(true);
@@ -300,11 +317,6 @@ public class MainController {
 
     @FXML
     private void onClickPlayGame(ActionEvent event) {
-
-    }
-
-    @FXML
-    private void onTextChangedTxtSearch(ActionEvent event) {
 
     }
 
