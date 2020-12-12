@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Properties;
 import org.rmc.retrogameslibrary.config.PropertiesConfig;
 import org.rmc.retrogameslibrary.dialog.AppDialog;
@@ -30,8 +29,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -104,21 +101,19 @@ public class MainController {
         tableGames.setPlaceholder(new Label("No hay juegos disponibles."));
         showGames(getGameList());
 
+        tableGames.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    showDetails(newValue);
+                });
+
         txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("Text changed");
-            String title = txtSearch.getText();
-            List<Game> games = null;
             HibernateGameService gameService = new HibernateGameService();
             try {
-                games = gameService.searchByTitle("%" + title + "%");
+                ObservableList<Game> gameList = FXCollections.observableArrayList();
+                gameList.setAll(gameService.searchByTitle("%" + newValue + "%"));
+                showGames(gameList);
             } catch (CrudException e) {
                 AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
-            }
-            if (games != null) {
-                ObservableList<Game> gameList = FXCollections.observableArrayList();
-                gameList.setAll(games);
-                showGames(gameList);
-                resetDetails();
             }
         });
     }
@@ -145,6 +140,7 @@ public class MainController {
     }
 
     private void showDetails(Game game) {
+        resetDetails();
         try {
             imgPhotoDetails
                     .setImage(new Image(Files.newInputStream(Paths.get(game.getScreenshot()))));
@@ -217,19 +213,10 @@ public class MainController {
     private void onMouseClickedCol(MouseEvent event) throws IOException {
         Game game = tableGames.getSelectionModel().getSelectedItem();
         if (game != null) {
-            showDetails(game);
             menuEditGame.setDisable(false);
             menuDelete.setDisable(false);
             if (event.getClickCount() > 1)
                 editGame();
-        }
-    }
-
-    @FXML
-    private void onKeyReleasedTableGames(KeyEvent event) {
-        if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN) {
-            Game game = tableGames.getSelectionModel().getSelectedItem();
-            showDetails(game);
         }
     }
 
@@ -239,7 +226,6 @@ public class MainController {
             Stage stage = (Stage) btnAddNewGame.getScene().getWindow();
             gameEditWindow(stage, game).setOnHidden(e -> {
                 showGames(getGameList());
-                showDetails(game);
             });
         }
     }
@@ -255,8 +241,6 @@ public class MainController {
                     gameService.remove(game);
                     AppDialog.messageDialog("Eliminar juegos",
                             "Se ha eliminado el juego " + game.getTitle() + " con éxito.");
-                    showGames(getGameList());
-                    resetDetails();
                     menuEditGame.setDisable(true);
                     menuDelete.setDisable(true);
                 } catch (CrudException e) {

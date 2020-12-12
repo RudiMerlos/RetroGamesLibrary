@@ -103,7 +103,7 @@
          <center>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <TableView fx:id="tableGames" onKeyReleased="#onKeyReleasedTableGames" onMouseClicked="#onMouseClickedCol" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="tableGames" onMouseClicked="#onMouseClickedCol" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                       <TableColumn fx:id="colTitleGame" minWidth="100.0" prefWidth="360.0" text="Título" />
                         <TableColumn fx:id="colPlatformGame" minWidth="80.0" prefWidth="260.0" text="Plataforma" />
