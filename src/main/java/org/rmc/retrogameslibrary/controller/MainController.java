@@ -12,7 +12,6 @@ import org.rmc.retrogameslibrary.repository.CrudException;
 import org.rmc.retrogameslibrary.service.GameService;
 import org.rmc.retrogameslibrary.service.hibernate.HibernateGameService;
 import org.rmc.retrogameslibrary.service.jdbc.MysqlConnection;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -141,17 +140,19 @@ public class MainController {
 
     private void showDetails(Game game) {
         resetDetails();
-        try {
-            imgPhotoDetails
-                    .setImage(new Image(Files.newInputStream(Paths.get(game.getScreenshot()))));
-        } catch (Exception e) {
-            imgPhotoDetails.setImage(null);
+        if (game != null) {
+            try {
+                imgPhotoDetails
+                        .setImage(new Image(Files.newInputStream(Paths.get(game.getScreenshot()))));
+            } catch (Exception e) {
+                imgPhotoDetails.setImage(null);
+            }
+            lblTitleDetails.setText(game.getTitle());
+            lblPlatformDetails.setText(game.getPlatform().toString());
+            lblGenderDetails.setText(game.getGender());
+            lblYearDetails.setText(game.getYear() == null ? "" : game.getYear().toString());
+            lblDescriptionDetails.setText(game.getDescription());
         }
-        lblTitleDetails.setText(game.getTitle());
-        lblPlatformDetails.setText(game.getPlatform().toString());
-        lblGenderDetails.setText(game.getGender());
-        lblYearDetails.setText(game.getYear() == null ? "" : game.getYear().toString());
-        lblDescriptionDetails.setText(game.getDescription());
     }
 
     private void resetDetails() {
@@ -171,12 +172,10 @@ public class MainController {
 
     @FXML
     private void onClickImport(ActionEvent event) {
-
     }
 
     @FXML
     private void onClickExport(ActionEvent event) {
-
     }
 
     @FXML
@@ -200,7 +199,7 @@ public class MainController {
                 AppDialog.warningDialog("Error de MySQL",
                         "No se ha podido cerrar la conexión a la base de datos de usuarios.");
             }
-            Platform.exit();
+            javafx.application.Platform.exit();
         }
     }
 
