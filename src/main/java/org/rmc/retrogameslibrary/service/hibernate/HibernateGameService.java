@@ -73,9 +73,7 @@ public class HibernateGameService extends HibernateService implements GameServic
     public Game getById(Long id) throws CrudException {
         Game game = null;
         try {
-            TypedQuery<Game> query = em.createNamedQuery("Game.findById", Game.class);
-            query.setParameter("id", id);
-            game = query.getSingleResult();
+            game = em.find(Game.class, id);
         } catch (Exception e) {
             throw new CrudException("Error de Hibernate", e);
         }

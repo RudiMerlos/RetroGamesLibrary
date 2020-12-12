@@ -40,7 +40,7 @@ public class HibernatePlatformService extends HibernateService implements Platfo
             query.setParameter("country", platform.getCountry());
             query.setParameter("year", platform.getYear());
             if (query.executeUpdate() == 0)
-                throw new CrudException("Es probable que no se haya eliminado el registro.");
+                throw new CrudException("Es probable que no se haya actualizado el registro.");
         } catch (Exception e) {
             throw new CrudException("Error de Hibernate", e);
         } finally {
@@ -68,9 +68,7 @@ public class HibernatePlatformService extends HibernateService implements Platfo
     public Platform getById(Long id) throws CrudException {
         Platform platform = null;
         try {
-            TypedQuery<Platform> query = em.createNamedQuery("Game.findById", Platform.class);
-            query.setParameter("id", id);
-            platform = query.getSingleResult();
+            platform = em.find(Platform.class, id);
         } catch (Exception e) {
             throw new CrudException("Error de Hibernate", e);
         }

@@ -20,7 +20,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "game")
 @NamedQueries({@NamedQuery(name = "Game.findAll", query = "SELECT g FROM Game g"),
-        @NamedQuery(name = "Game.findById", query = "SELECT g FROM Game g WHERE g.id = :id"),
         @NamedQuery(name = "Game.findByTitle",
                 query = "SELECT g FROM Game g WHERE g.title LIKE :title"),
         @NamedQuery(name = "Game.findByYear", query = "SELECT g FROM Game g WHERE g.year = :year"),

@@ -22,8 +22,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "platform")
 @NamedQueries({@NamedQuery(name = "Platform.findAll", query = "SELECT p FROM Platform p"),
-        @NamedQuery(name = "Platform.findById",
-                query = "SELECT p FROM Platform p WHERE p.id = :id"),
         @NamedQuery(name = "Platform.findByName",
                 query = "SELECT p FROM Platform p WHERE p.name LIKE :name"),
         @NamedQuery(name = "Platform.findByModel",

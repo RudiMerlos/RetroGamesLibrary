@@ -11,6 +11,7 @@ import org.rmc.retrogameslibrary.service.PlatformService;
 import org.rmc.retrogameslibrary.service.hibernate.HibernateConnection;
 import org.rmc.retrogameslibrary.service.hibernate.HibernatePlatformService;
 import org.rmc.retrogameslibrary.service.jdbc.MysqlConnection;
+import org.rmc.retrogameslibrary.service.objectdb.ObjectdbConnection;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.fxml.FXMLLoader;
@@ -44,11 +45,13 @@ public class Main extends Application {
                             "No se ha podido cerrar la conexión a la base de datos de usuarios.");
                 }
                 HibernateConnection.getInstance().closeConnection();
+                ObjectdbConnection.getInstance().closeConnection();
                 javafx.application.Platform.exit();
             }
         });
 
         initPlatforms();
+        initEmulators();
 
         if (properties != null) {
             try {
@@ -78,6 +81,10 @@ public class Main extends Application {
         }
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    private void initEmulators() {
+        ObjectdbConnection.getInstance().connect("emulatorsdb");
     }
 
     private void initPlatforms() {
