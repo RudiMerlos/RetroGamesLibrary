@@ -1,5 +1,13 @@
 # Retro Games Library
 
+Retro Games Library es una aplicación hecha en JavaFX y gestionada con Maven.
+
+Antes de inicializar la aplicación se debe tener acceso a un servidor MySQL o MariaDB para la gestión de usuarios.
+
+Para la compilación y ejecución basta con introducir:
+
+        $ mvn javafx:run
+
 ## Introducción
 
 Retro Games Library es un gestor de juegos multiusuario para varias plataformas de videoujuegos. La aplicación te permite listar los juegos, las plataformas, los emuladores y los usuarios. También permite visualizar información y capturas de pantalla de cada juego. Además, el gestor permite lanzar los juegos con su respectivo emulador previamente instalado y configurado en la aplicación.
