@@ -148,6 +148,9 @@ public class GameRegisterDialogController {
                     AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
                 }
             }
+        } else {
+            AppDialog.errorDialog("Error en el registro de juegos",
+                    "Debes rellenar los campos obligatorios.");
         }
     }
 

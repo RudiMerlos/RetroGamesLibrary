@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Properties;
+import org.rmc.retrogameslibrary.config.PropertiesConfig;
 import org.rmc.retrogameslibrary.dialog.AppDialog;
 import org.rmc.retrogameslibrary.model.Game;
 import org.rmc.retrogameslibrary.model.Platform;
@@ -108,21 +110,29 @@ public class GameEditDialogController {
     @FXML
     private void onClickBtnSelectGame(ActionEvent event) {
         Stage stage = (Stage) btnSelectGame.getScene().getWindow();
+        Properties properties = PropertiesConfig.readProperties();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar juego");
+        fileChooser.setInitialDirectory(new File(properties.getProperty(
+                PropertiesConfig.GAME_ROM_LAST_PATH, System.getProperty("user.home"))));
         gameFile = fileChooser.showOpenDialog(stage);
         lblPathGame.setText(gameFile.getAbsolutePath());
+        PropertiesConfig.writeGameLastPathProperties(gameFile.getParent());
     }
 
     @FXML
     private void onClickBtnSelectImgGame(ActionEvent event) throws IOException {
         Stage stage = (Stage) btnSelectImgGame.getScene().getWindow();
+        Properties properties = PropertiesConfig.readProperties();
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
                 new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.giff"));
         fileChooser.setTitle("Seleccionar imagen");
+        fileChooser.setInitialDirectory(new File(properties.getProperty(
+                PropertiesConfig.GAME_IMG_LAST_PATH, System.getProperty("user.home"))));
         imgFile = fileChooser.showOpenDialog(stage);
         imgScreenshotGame.setImage(new Image(Files.newInputStream(imgFile.toPath())));
+        PropertiesConfig.writeImgLastPathProperites(imgFile.getParent());
     }
 
     @FXML
@@ -171,6 +181,9 @@ public class GameEditDialogController {
                     AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
                 }
             }
+        } else {
+            AppDialog.errorDialog("Error en la edición de juegos",
+                    "Debes rellenar los campos obligatorios.");
         }
     }
 

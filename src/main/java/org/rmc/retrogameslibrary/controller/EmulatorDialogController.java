@@ -10,6 +10,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -19,6 +22,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class EmulatorDialogController {
@@ -65,9 +69,9 @@ public class EmulatorDialogController {
     }
 
     @FXML
-    private void onClickBtnAddEmulator(ActionEvent event) {
+    private void onClickBtnAddEmulator(ActionEvent event) throws IOException {
         Stage stage = (Stage) btnAddEmulator.getScene().getWindow();
-        emulatorRegisterEditWindow(stage, null).setOnHidden(e -> showEmulators());
+        emulatorRegisterWindow(stage).setOnHidden(e -> showEmulators());
     }
 
     @FXML
@@ -99,7 +103,7 @@ public class EmulatorDialogController {
         Emulator emulator = tableEmulators.getSelectionModel().getSelectedItem();
         if (emulator != null) {
             Stage stage = (Stage) btnEditEmulator.getScene().getWindow();
-            emulatorRegisterEditWindow(stage, emulator).setOnHidden(e -> showEmulators());
+            emulatorEditWindow(stage, emulator).setOnHidden(e -> showEmulators());
         }
     }
 
@@ -125,8 +129,30 @@ public class EmulatorDialogController {
         }
     }
 
-    private Stage emulatorRegisterEditWindow(Stage stage, Emulator emulator) {
+    private Stage emulatorRegisterWindow(Stage stage) throws IOException {
         Stage newStage = new Stage();
+        newStage.initOwner(stage);
+        newStage.initModality(Modality.WINDOW_MODAL);
+        Parent root = FXMLLoader.load(getClass().getResource("/view/emulatorregisterdialog.fxml"));
+        newStage.setScene(new Scene(root));
+        newStage.setTitle("Registro de emuladores");
+        newStage.setResizable(false);
+        newStage.show();
+        return newStage;
+    }
+
+    private Stage emulatorEditWindow(Stage stage, Emulator emulator) throws IOException {
+        Stage newStage = new Stage();
+        newStage.initOwner(stage);
+        newStage.initModality(Modality.WINDOW_MODAL);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/emulatoreditdialog.fxml"));
+        Parent root = loader.load();
+        EmulatorEditDialogController controller = loader.getController();
+        controller.init(emulator);
+        newStage.setScene(new Scene(root));
+        newStage.setTitle("Edición de emuladores");
+        newStage.setResizable(false);
+        newStage.show();
         return newStage;
     }
 }

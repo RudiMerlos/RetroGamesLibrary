@@ -25,6 +25,7 @@ public class PropertiesConfig {
     // FileChooser last paths properties
     public static final String GAME_ROM_LAST_PATH = "game_rom_last_path";
     public static final String GAME_IMG_LAST_PATH = "game_img_last_path";
+    public static final String EMULATOR_LAST_PATH = "emulator_last_path";
 
     private static Properties properties = new Properties();
 
@@ -76,9 +77,15 @@ public class PropertiesConfig {
         saveProperties();
     }
 
-    // Writes FileChooser game img last path into properties file
+    // Sets FileChooser game img last path
     public static void writeImgLastPathProperites(String lastPath) {
         properties.setProperty(GAME_IMG_LAST_PATH, lastPath);
+        saveProperties();
+    }
+
+    // Sets FileChooser emulator last path
+    public static void writeEmulatorLastPathProperites(String lastPath) {
+        properties.setProperty(EMULATOR_LAST_PATH, lastPath);
         saveProperties();
     }
 

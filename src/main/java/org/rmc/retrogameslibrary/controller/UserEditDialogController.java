@@ -29,7 +29,7 @@ public class UserEditDialogController {
     private PasswordField pswPassword;
 
     @FXML
-    private Button btnOk;
+    private Button btnSave;
     @FXML
     private Button btnCancel;
 
@@ -49,7 +49,7 @@ public class UserEditDialogController {
     }
 
     @FXML
-    private void onClickBtnOk(ActionEvent event) throws IOException {
+    private void onClickBtnSave(ActionEvent event) throws IOException {
         String firstName = txtFirstName.getText();
         String lastName = txtLastName.getText();
         LocalDate birthdate = dprBirthdate.getValue();
@@ -69,14 +69,14 @@ public class UserEditDialogController {
                     userService.modify(user);
                     AppDialog.messageDialog("Edición de usuarios",
                             "Usuario " + user.getEmail() + " modificado con éxito.");
-                    Stage stage = (Stage) btnOk.getScene().getWindow();
+                    Stage stage = (Stage) btnSave.getScene().getWindow();
                     stage.close();
                 } catch (CrudException e) {
                     AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
                 }
             }
         } else {
-            AppDialog.errorDialog("Error en la base de datos de usuarios",
+            AppDialog.errorDialog("Error en la edición de usuarios",
                     "Debes rellenar los campos obligatorios.");
         }
     }

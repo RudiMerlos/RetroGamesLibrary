@@ -25,7 +25,7 @@ public class PlatformEditDialogController {
     private TextField txtYear;
 
     @FXML
-    private Button btnOk;
+    private Button btnSave;
     @FXML
     private Button btnCancel;
 
@@ -45,7 +45,7 @@ public class PlatformEditDialogController {
     }
 
     @FXML
-    private void onClickBtnOk(ActionEvent event) {
+    private void onClickBtnSave(ActionEvent event) {
         String name = txtName.getText();
         String model = txtModel.getText();
         String company = txtCompany.getText();
@@ -67,12 +67,15 @@ public class PlatformEditDialogController {
                     platformService.modify(platform);
                     AppDialog.messageDialog("Edición de plataformas",
                             "Plataforma " + name + " " + model + " modificada con éxito.");
-                    Stage stage = (Stage) btnOk.getScene().getWindow();
+                    Stage stage = (Stage) btnSave.getScene().getWindow();
                     stage.close();
                 } catch (CrudException e) {
                     AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
                 }
             }
+        } else {
+            AppDialog.errorDialog("Error en la edición de plataformas",
+                    "Debes rellenar los campos obligatorios.");
         }
     }
 

@@ -25,6 +25,6 @@
       <TextField fx:id="txtYear" layoutX="48.0" layoutY="360.0" prefHeight="26.0" prefWidth="136.0" />
       <Label layoutX="231.0" layoutY="365.0" text="* Campos obligatorios" />
       <Button fx:id="btnCancel" layoutX="138.0" layoutY="415.0" mnemonicParsing="false" onAction="#onClickBtnCancel" prefHeight="32.0" prefWidth="100.0" text="Cancelar" />
-      <Button fx:id="btnOk" layoutX="275.0" layoutY="415.0" mnemonicParsing="false" onAction="#onClickBtnOk" prefHeight="32.0" prefWidth="100.0" text="Aceptar" />
+      <Button fx:id="btnSave" layoutX="275.0" layoutY="415.0" mnemonicParsing="false" onAction="#onClickBtnSave" prefHeight="32.0" prefWidth="100.0" text="Aceptar" />
    </children>
 </AnchorPane>

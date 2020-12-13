@@ -29,12 +29,12 @@ public class UserRegisterDialogController {
     private PasswordField pswPassword;
 
     @FXML
-    private Button btnOk;
+    private Button btnSave;
     @FXML
     private Button btnCancel;
 
     @FXML
-    private void onClickBtnOk(ActionEvent event) throws IOException {
+    private void onClickBtnSave(ActionEvent event) throws IOException {
         String firstName = txtFirstName.getText();
         String lastName = txtLastName.getText();
         LocalDate birthdate = dprBirthdate.getValue();
@@ -55,14 +55,14 @@ public class UserRegisterDialogController {
                     userService.insert(user);
                     AppDialog.messageDialog("Creación de usuarios",
                             "Usuario " + email + " creado con éxito.");
-                    Stage stage = (Stage) btnOk.getScene().getWindow();
+                    Stage stage = (Stage) btnSave.getScene().getWindow();
                     stage.close();
                 } catch (CrudException e) {
                     AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
                 }
             }
         } else {
-            AppDialog.errorDialog("Error en la base de datos de usuarios",
+            AppDialog.errorDialog("Error en el registro de usuarios",
                     "Debes rellenar los campos obligatorios.");
         }
     }

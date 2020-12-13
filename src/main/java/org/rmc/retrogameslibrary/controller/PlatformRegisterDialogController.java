@@ -25,12 +25,12 @@ public class PlatformRegisterDialogController {
     private TextField txtYear;
 
     @FXML
-    private Button btnOk;
+    private Button btnSave;
     @FXML
     private Button btnCancel;
 
     @FXML
-    private void onClickBtnOk(ActionEvent event) {
+    private void onClickBtnSave(ActionEvent event) {
         String name = txtName.getText();
         String model = txtModel.getText();
         String company = txtCompany.getText();
@@ -48,12 +48,15 @@ public class PlatformRegisterDialogController {
                     platformService.insert(platform);
                     AppDialog.messageDialog("Creación de plataformas",
                             "Plataforma " + name + " " + model + " creada con éxito.");
-                    Stage stage = (Stage) btnOk.getScene().getWindow();
+                    Stage stage = (Stage) btnSave.getScene().getWindow();
                     stage.close();
                 } catch (CrudException e) {
                     AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
                 }
             }
+        } else {
+            AppDialog.errorDialog("Error en el registro de plataformas",
+                    "Debes rellenar los campos obligatorios.");
         }
     }
 
