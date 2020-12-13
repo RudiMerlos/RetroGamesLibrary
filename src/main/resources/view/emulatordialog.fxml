@@ -17,10 +17,10 @@
       </AnchorPane>
    </bottom>
    <center>
-      <TableView fx:id="tableEmulators" onMouseClicked="#onMouseClickedCol" prefHeight="537.0" prefWidth="800.0" BorderPane.alignment="TOP_CENTER">
+      <TableView fx:id="tableEmulators" onKeyReleased="#onKeyReleasedCol" onMouseClicked="#onMouseClickedCol" prefHeight="537.0" prefWidth="800.0" BorderPane.alignment="TOP_CENTER">
         <columns>
-          <TableColumn fx:id="colNamePlatform" minWidth="100.0" prefWidth="200.0" text="Nombre" />
-          <TableColumn fx:id="colModelPlatform" minWidth="50.0" prefWidth="398.0" text="Ruta" />
+          <TableColumn fx:id="colNameEmulator" minWidth="100.0" prefWidth="200.0" text="Nombre" />
+          <TableColumn fx:id="colPathEmulator" minWidth="50.0" prefWidth="398.0" text="Ruta" />
         </columns>
       </TableView>
    </center>

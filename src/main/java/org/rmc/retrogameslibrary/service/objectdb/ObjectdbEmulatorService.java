@@ -2,7 +2,6 @@ package org.rmc.retrogameslibrary.service.objectdb;
 
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.rmc.retrogameslibrary.model.Emulator;
 import org.rmc.retrogameslibrary.repository.CrudException;
@@ -34,13 +33,7 @@ public class ObjectdbEmulatorService implements EmulatorService {
     public void modify(Emulator emulator) throws CrudException {
         try {
             em.getTransaction().begin();
-            Query query = em.createQuery(
-                    "UPDATE Emulator e SET e.name = :name, e.path = :path WHERE e.id = :id");
-            query.setParameter("id", emulator.getId());
-            query.setParameter("name", emulator.getName());
-            query.setParameter("path", emulator.getPath());
-            if (query.executeUpdate() == 0)
-                throw new CrudException("Es probable que no se haya actuaizado el registro.");
+            em.persist(emulator);
         } catch (Exception e) {
             throw new CrudException("Error de ObjectDB", e);
         } finally {
@@ -79,7 +72,7 @@ public class ObjectdbEmulatorService implements EmulatorService {
     public List<Emulator> getAll() throws CrudException {
         List<Emulator> emulators = null;
         try {
-            TypedQuery<Emulator> query = em.createNamedQuery("Platform.findAll", Emulator.class);
+            TypedQuery<Emulator> query = em.createNamedQuery("Emulator.findAll", Emulator.class);
             emulators = query.getResultList();
         } catch (Exception e) {
             throw new CrudException("Error de ObjectDB", e);

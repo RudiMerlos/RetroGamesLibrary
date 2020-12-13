@@ -16,8 +16,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "emulator")
-@NamedQueries({@NamedQuery(name = "Emulator.findByName",
-        query = "SELECT e FROM Emulator e WHERE e.name LIKE :name")})
+@NamedQueries({@NamedQuery(name = "Emulator.findAll", query = "SELECT e FROM Emulator e"),
+        @NamedQuery(name = "Emulator.findByName",
+                query = "SELECT e FROM Emulator e WHERE e.name LIKE :name")})
 public class Emulator {
 
     @Id

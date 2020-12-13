@@ -17,6 +17,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -91,7 +94,16 @@ public class PlatformDialogController {
         if (platform != null) {
             btnEditPlatform.setDisable(false);
             btnDeletePlatform.setDisable(false);
-            if (event.getClickCount() > 1)
+            if (event.getButton() == MouseButton.PRIMARY &&  event.getClickCount() > 1)
+                editPlatform();
+        }
+    }
+
+    @FXML
+    private void onKeyReleasedCol(KeyEvent event) throws IOException {
+        if (event.getCode() == KeyCode.ENTER) {
+            Platform platform = tablePlatforms.getSelectionModel().getSelectedItem();
+            if (platform != null)
                 editPlatform();
         }
     }

@@ -20,6 +20,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -94,8 +97,18 @@ public class UsersDialogController {
                 btnDeleteUser.setDisable(false);
             else
                 btnDeleteUser.setDisable(true);
-            if (event.getClickCount() > 1)
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() > 1)
                 editUser();
+        }
+    }
+
+    @FXML
+    private void onKeyReleasedCol(KeyEvent event) throws IOException {
+        if (event.getCode() == KeyCode.ENTER) {
+            User user = tableUsers.getSelectionModel().getSelectedItem();
+            if (user != null) {
+                editUser();
+            }
         }
     }
 

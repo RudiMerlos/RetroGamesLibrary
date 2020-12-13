@@ -17,7 +17,7 @@
       </AnchorPane>
    </bottom>
    <center>
-      <TableView fx:id="tablePlatforms" onMouseClicked="#onMouseClickedCol" prefHeight="537.0" prefWidth="800.0" BorderPane.alignment="TOP_CENTER">
+      <TableView fx:id="tablePlatforms" onKeyReleased="#onKeyReleasedCol" onMouseClicked="#onMouseClickedCol" prefHeight="537.0" prefWidth="800.0" BorderPane.alignment="TOP_CENTER">
         <columns>
           <TableColumn fx:id="colNamePlatform" minWidth="50.0" prefWidth="164.0" text="Nombre" />
           <TableColumn fx:id="colModelPlatform" minWidth="50.0" prefWidth="193.0" text="Modelo" />

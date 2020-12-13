@@ -28,6 +28,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -101,9 +104,7 @@ public class MainController {
         showGames(getGameList());
 
         tableGames.getSelectionModel().selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> {
-                    showDetails(newValue);
-                });
+                .addListener((observable, oldValue, newValue) -> showDetails(newValue));
 
         txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             HibernateGameService gameService = new HibernateGameService();
@@ -214,7 +215,16 @@ public class MainController {
         if (game != null) {
             menuEditGame.setDisable(false);
             menuDelete.setDisable(false);
-            if (event.getClickCount() > 1)
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() > 1)
+                editGame();
+        }
+    }
+
+    @FXML
+    private void onKeyReleasedCol(KeyEvent event) throws IOException {
+        if (event.getCode() == KeyCode.ENTER) {
+            Game game = tableGames.getSelectionModel().getSelectedItem();
+            if (game != null)
                 editGame();
         }
     }
@@ -250,9 +260,7 @@ public class MainController {
     @FXML
     private void onClickPlatforms(ActionEvent event) throws IOException {
         Stage stage = (Stage) btnAddNewGame.getScene().getWindow();
-        platformWindow(stage).setOnHidden(e -> {
-            showGames(getGameList());
-        });
+        platformWindow(stage).setOnHidden(e -> showGames(getGameList()));
     }
 
     private Stage platformWindow(Stage stage) throws IOException {
@@ -281,8 +289,21 @@ public class MainController {
     }
 
     @FXML
-    private void onClickEmulators(ActionEvent event) {
+    private void onClickEmulators(ActionEvent event) throws IOException {
+        Stage stage = (Stage) btnAddNewGame.getScene().getWindow();
+        emulatorWindow(stage).setOnHidden(e -> showGames(getGameList()));
+    }
 
+    private Stage emulatorWindow(Stage stage) throws IOException {
+        Stage newStage = new Stage();
+        newStage.initOwner(stage);
+        newStage.initModality(Modality.WINDOW_MODAL);
+        Parent root = FXMLLoader.load(getClass().getResource("/view/emulatordialog.fxml"));
+        newStage.setScene(new Scene(root));
+        newStage.setTitle("Emulators");
+        newStage.setResizable(false);
+        newStage.show();
+        return newStage;
     }
 
     @FXML
