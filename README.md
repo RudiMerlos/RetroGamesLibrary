@@ -1,6 +1,6 @@
 # Retro Games Library
 
-### Introducción
+## Introducción
 
 Retro Games Library es un gestor de juegos multiusuario para varias plataformas de videoujuegos. La aplicación te permite listar los juegos, las plataformas, los emuladores y los usuarios. También permite visualizar información y capturas de pantalla de cada juego. Además, el gestor permite lanzar los juegos con su respectivo emulador previamente instalado y configurado en la aplicación.
 
@@ -18,17 +18,17 @@ La gestión de datos se realiza, por una parte mediante tres bases de datos rela
 
 También se hace uso de un fichero de propiedades, donde se almacena la configuración de la aplicación.
 
-### Gestión de ficheros
+## Gestión de ficheros
 
 La información de la conexión a la base de datos de usuarios se almacena en el fichero config.conf en la raíz de la aplicación. Aparte de esta información, también se guarda el usuario actual (siempre y cuando no cierre la sesión) para próximos inicios, así como los últimos directorios en los FileChoosers de la aplicación.
 
-### Gestión de bases de datos
+## Gestión de bases de datos
 
 La gestión de las bases de datos se realiza mediante el patrón de diseño DAO. Éste se encarga de, mediante interfaces, gestionar la conexión a las diferentes bases de datos y en diferentes tecnologías.
 
-#### Bases de datos relacionales
+### Bases de datos relacionales
 
-###### H2 + Hibernate
+#### H2 + Hibernate
 
 La información de juegos y plataformas está definida en dos tablas:
 
@@ -51,7 +51,7 @@ La información de juegos y plataformas está definida en dos tablas:
     - Year -> Año de lanzamiento de la plataforma.
     - Country -> País de la sede.
 
-###### MariaDB + JDBC
+#### MariaDB + JDBC
 
 Una tabla que se encarga de la información de los usuarios:
 
@@ -62,7 +62,7 @@ Una tabla que se encarga de la información de los usuarios:
     - Email -> Email del usuario.
     - Passw -> Contraseña del usuario.
 
-###### OpenDB + JPA
+#### OpenDB + JPA
 
 Una tabla que se encarga de los datos de los emuladores:
 
@@ -71,7 +71,7 @@ Una tabla que se encarga de los datos de los emuladores:
     - Name -> Nombre del emulador.
     - Path -> Ruta al ejecutable.
 
-### Funcionalidades
+## Funcionalidades
 
 A continuación se detallan las funcionalidades de la aplicación:
 
