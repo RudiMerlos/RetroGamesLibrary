@@ -223,9 +223,7 @@ public class MainController {
         Game game = tableGames.getSelectionModel().getSelectedItem();
         if (game != null) {
             Stage stage = (Stage) btnAddNewGame.getScene().getWindow();
-            gameEditWindow(stage, game).setOnHidden(e -> {
-                showGames(getGameList());
-            });
+            gameEditWindow(stage, game).setOnHidden(e -> showGames(getGameList()));
         }
     }
 
@@ -251,15 +249,22 @@ public class MainController {
 
     @FXML
     private void onClickPlatforms(ActionEvent event) throws IOException {
-        Stage thisStage = (Stage) btnAddNewGame.getScene().getWindow();
+        Stage stage = (Stage) btnAddNewGame.getScene().getWindow();
+        platformWindow(stage).setOnHidden(e -> {
+            showGames(getGameList());
+        });
+    }
+
+    private Stage platformWindow(Stage stage) throws IOException {
         Stage newStage = new Stage();
-        newStage.initOwner(thisStage);
+        newStage.initOwner(stage);
         newStage.initModality(Modality.WINDOW_MODAL);
         Parent root = FXMLLoader.load(getClass().getResource("/view/platformdialog.fxml"));
         newStage.setScene(new Scene(root));
         newStage.setTitle("Platforms");
         newStage.setResizable(false);
         newStage.show();
+        return newStage;
     }
 
     @FXML

@@ -1,18 +1,21 @@
 package org.rmc.retrogameslibrary.service.hibernate;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 public class HibernateConnection {
 
     private static HibernateConnection instance = null;
 
-    private EntityManagerFactory emf;
-    private EntityManager em;
+    private SessionFactory sf;
+    private Session session;
 
     private HibernateConnection() {
-        em = null;
+        sf = null;
+        session = null;
     }
 
     public static HibernateConnection getInstance() {
@@ -21,17 +24,18 @@ public class HibernateConnection {
         return instance;
     }
 
-    public void connect(String name) {
-        emf = Persistence.createEntityManagerFactory(name);
-        em = emf.createEntityManager();
+    public void connect() {
+        StandardServiceRegistry sr = new StandardServiceRegistryBuilder().configure().build();
+        sf = new MetadataSources(sr).buildMetadata().buildSessionFactory();
+        session = sf.openSession();
     }
 
-    public EntityManager getEntityManager() {
-        return em;
+    public Session getEntityManager() {
+        return session;
     }
 
     public void closeConnection() {
-        em.close();
-        emf.close();
+        session.close();
+        sf.close();
     }
 }

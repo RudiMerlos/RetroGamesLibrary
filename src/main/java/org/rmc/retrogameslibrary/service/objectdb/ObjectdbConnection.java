@@ -22,7 +22,7 @@ public class ObjectdbConnection {
     }
 
     public void connect(String name) {
-        emf = Persistence.createEntityManagerFactory("objectdb:./db/" + name + ".odb");
+        emf = Persistence.createEntityManagerFactory("objectdb:db/" + name + ".odb");
         em = emf.createEntityManager();
     }
 

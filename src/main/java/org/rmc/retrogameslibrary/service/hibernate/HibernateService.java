@@ -1,12 +1,12 @@
 package org.rmc.retrogameslibrary.service.hibernate;
 
-import javax.persistence.EntityManager;
+import org.hibernate.Session;
 
 public class HibernateService {
 
-    protected EntityManager em = null;
+    protected Session session = null;
 
     public HibernateService() {
-        em = HibernateConnection.getInstance().getEntityManager();
+        session = HibernateConnection.getInstance().getEntityManager();
     }
 }

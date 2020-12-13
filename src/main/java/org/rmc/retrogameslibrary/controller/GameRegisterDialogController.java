@@ -105,7 +105,7 @@ public class GameRegisterDialogController {
                 PropertiesConfig.GAME_IMG_LAST_PATH, System.getProperty("user.home"))));
         imgFile = fileChooser.showOpenDialog(stage);
         imgScreenshotGame.setImage(new Image(Files.newInputStream(imgFile.toPath())));
-        PropertiesConfig.writeGameLastPathProperties(imgFile.getParent());
+        PropertiesConfig.writeImgLastPathProperites(imgFile.getParent());
     }
 
     @FXML

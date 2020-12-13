@@ -29,4 +29,9 @@ public class Emulator {
 
     @Column(columnDefinition = "VARCHAR(255)", nullable = false)
     private String path;
+
+    public Emulator(String name, String path) {
+        this.name = name;
+        this.path = path;
+    }
 }

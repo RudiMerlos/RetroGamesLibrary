@@ -88,7 +88,7 @@ public class Main extends Application {
     }
 
     private void initPlatforms() {
-        HibernateConnection.getInstance().connect("gamesdb");
+        HibernateConnection.getInstance().connect();
         PlatformService platformService = new HibernatePlatformService();
         try {
             List<Platform> platforms = platformService.getAll();
