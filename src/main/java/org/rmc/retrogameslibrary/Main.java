@@ -65,11 +65,11 @@ public class Main extends Application {
                         || properties.getProperty(PropertiesConfig.CURRENT_USER).isEmpty()) {
                     root = FXMLLoader.load(getClass().getResource("/view/logindialog.fxml"));
                     stage.setTitle("Login");
+                    stage.setResizable(false);
                 } else {
                     root = FXMLLoader.load(getClass().getResource("/view/mainwindow.fxml"));
                     stage.setTitle("Retro Games Library");
                 }
-                stage.setResizable(false);
             } catch (SQLException e) {
                 AppDialog.errorDialog("User Database Error",
                         "No se ha podido conectar a la base de datos.",
@@ -102,11 +102,11 @@ public class Main extends Application {
     private void fillPlatforms() {
         PlatformService platformService = new HibernatePlatformService();
         List<Platform> platforms = List.of(
-            new Platform("Nintendo", "NES", "Nintendo Company Ltd", "Japón", 1889),
-            new Platform("Sega", "Master System II", "Sega Corporation", "Japón", 1960),
-            new Platform("Amstrad", "CPC 6128", "Amstrad", "UK", 1968),
-            new Platform("Atari", "2600", "Atari Inc", "USA", 1972),
-            new Platform("Spectrum", "ZX +128", "Sinclair Research Ltd", "UK", 1973)
+            new Platform("Nintendo", "NES", "Nintendo Company Ltd", "Japón", 1983),
+            new Platform("Sega", "Master System II", "Sega Corporation", "Japón", 1985),
+            new Platform("Amstrad", "CPC 6128", "Amstrad", "UK", 1984),
+            new Platform("Atari", "2600", "Atari Inc", "USA", 1977),
+            new Platform("Spectrum", "ZX 128", "Sinclair Research Ltd", "UK", 1985)
         );
         platforms.forEach(p -> {
             try {
