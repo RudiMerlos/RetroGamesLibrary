@@ -38,6 +38,7 @@ public class LoginDialogController {
     public void initialize() {
         try {
             MysqlUserService userService = new MysqlUserService();
+            // Creates user table if not exists
             userService.createTable();
 
         } catch (CrudException e) {
@@ -78,6 +79,7 @@ public class LoginDialogController {
         userRegisterWindow(stage);
     }
 
+    // Shows main window
     private void initMainWindow(Stage stage) throws IOException {
         Parent root = FXMLLoader
                 .load(getClass().getResource("/view/mainwindow.fxml"));
@@ -89,6 +91,7 @@ public class LoginDialogController {
         stage.show();
     }
 
+    // Shows user register window
     private void userRegisterWindow(Stage stage) throws IOException {
         Stage newStage = new Stage();
         newStage.initOwner(stage);

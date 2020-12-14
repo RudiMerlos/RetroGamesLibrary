@@ -47,6 +47,7 @@ public class EmulatorDialogController {
         showEmulators();
     }
 
+    // Reads emulators from database and they set into ObservableList
     private ObservableList<Emulator> getEmulatorList() {
         EmulatorService emulatorService = new ObjectdbEmulatorService();
         ObservableList<Emulator> emulatorList = FXCollections.observableArrayList();
@@ -58,6 +59,7 @@ public class EmulatorDialogController {
         return emulatorList;
     }
 
+    // Show emulators in the emulators table
     private void showEmulators() {
         ObservableList<Emulator> emulators = getEmulatorList();
 
@@ -120,6 +122,7 @@ public class EmulatorDialogController {
                     AppDialog.messageDialog("Eliminar emuladores",
                             "Se ha eliminado el emulador " + emulator.getName() + " con éxito.");
                     showEmulators();
+                    // When a emulator is deleted, disables edit and delete buttons
                     btnEditEmulator.setDisable(true);
                     btnDeleteEmulator.setDisable(true);
                 } catch (CrudException e) {

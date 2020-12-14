@@ -66,6 +66,7 @@ public class PlatformRegisterDialogController {
         stage.close();
     }
 
+    // Checks if year is valid
     private boolean yearIsValid(String year) {
         String regex = "^[12][0-9]{3}$";
         return year.matches(regex);

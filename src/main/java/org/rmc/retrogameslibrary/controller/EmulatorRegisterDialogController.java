@@ -39,10 +39,13 @@ public class EmulatorRegisterDialogController {
         Properties properties = PropertiesConfig.readProperties();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar emulador");
+        // Sets initial directory that it is save in the config file, if not setted, the initial
+        // directory will be user home
         fileChooser.setInitialDirectory(new File(properties.getProperty(
                 PropertiesConfig.EMULATOR_LAST_PATH, System.getProperty("user.home"))));
         emulatorFile = fileChooser.showOpenDialog(stage);
         lblPathEmulator.setText(emulatorFile.getAbsolutePath());
+        // Saves the last directory into the config file
         PropertiesConfig.writeEmulatorLastPathProperites(emulatorFile.getParent());
     }
 

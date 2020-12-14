@@ -57,6 +57,7 @@ public class UserEditDialogController {
         String password = pswPassword.getText();
 
         if (!firstName.isEmpty() && !password.isEmpty()) {
+            // Password must be between 6 and 16 chars of length
             if (password.length() < 6 || password.length() > 16) {
                 AppDialog.errorDialog("Error en la contraseña",
                         "La contraseña debe tener entre 6 y 16 caracteres.");

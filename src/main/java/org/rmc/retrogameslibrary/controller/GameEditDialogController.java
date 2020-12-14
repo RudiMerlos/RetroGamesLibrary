@@ -65,9 +65,11 @@ public class GameEditDialogController {
 
     @FXML
     public void initialize() {
+        // Initialize combo box
         cmbPlatformGame.setItems(getPlatformList());
     }
 
+    // Sets the game to edit
     public void init(Game game) {
         this.game = game;
         if (game == null) {
@@ -93,6 +95,7 @@ public class GameEditDialogController {
         }
     }
 
+    // Reads games from database and they set into ObservableList
     private ObservableList<String> getPlatformList() {
         ObservableList<String> platformList = FXCollections.observableArrayList();
         PlatformService platformService = new HibernatePlatformService();
@@ -113,10 +116,13 @@ public class GameEditDialogController {
         Properties properties = PropertiesConfig.readProperties();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Seleccionar juego");
+        // Sets initial directory that it is save in the config file, if not setted, the initial
+        // directory will be user home
         fileChooser.setInitialDirectory(new File(properties.getProperty(
                 PropertiesConfig.GAME_ROM_LAST_PATH, System.getProperty("user.home"))));
         gameFile = fileChooser.showOpenDialog(stage);
         lblPathGame.setText(gameFile.getAbsolutePath());
+        // Saves the last directory into the config file
         PropertiesConfig.writeGameLastPathProperties(gameFile.getParent());
     }
 
@@ -128,10 +134,13 @@ public class GameEditDialogController {
         fileChooser.getExtensionFilters().add(
                 new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.giff"));
         fileChooser.setTitle("Seleccionar imagen");
+        // Sets initial directory that it is save in the config file, if not setted, the initial
+        // directory will be user home
         fileChooser.setInitialDirectory(new File(properties.getProperty(
                 PropertiesConfig.GAME_IMG_LAST_PATH, System.getProperty("user.home"))));
         imgFile = fileChooser.showOpenDialog(stage);
         imgScreenshotGame.setImage(new Image(Files.newInputStream(imgFile.toPath())));
+        // Saves the last directory into the config file
         PropertiesConfig.writeImgLastPathProperites(imgFile.getParent());
     }
 
@@ -163,6 +172,7 @@ public class GameEditDialogController {
                 PlatformService platformService = new HibernatePlatformService();
                 GameService gameService = new HibernateGameService();
                 try {
+                    // Gets the platform by name and model
                     Platform platform = platformService.getByNameAndModel(name, model);
                     game.setTitle(title);
                     game.setDescription(description);
@@ -187,6 +197,7 @@ public class GameEditDialogController {
         }
     }
 
+    // Checks if year is valid
     private boolean yearIsValid(String year) {
         String regex = "^[12][0-9]{3}$";
         return year.matches(regex);

@@ -136,6 +136,7 @@ public class UsersDialogController {
                     AppDialog.messageDialog("Eliminar usuarios",
                             "Se ha eliminado el usuario " + user.getEmail() + " con éxito.");
                     showUsers();
+                    // When a user is deleted, disables edit and delete buttons
                     btnEditUser.setDisable(true);
                     btnDeleteUser.setDisable(true);
                 } catch (CrudException e) {

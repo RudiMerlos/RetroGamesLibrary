@@ -57,8 +57,7 @@ public class Main extends Application {
 
         // Read properties
         Properties properties = PropertiesConfig.readProperties();
-        // If properties are not null, then try to set MySQL connection, if not, launches the login
-        // window
+        // If properties are not null, try to set MySQL connection
         if (properties != null) {
             try {
                 String host = properties.getProperty(PropertiesConfig.MYSQL_HOST);
@@ -83,7 +82,7 @@ public class Main extends Application {
                         "No se ha podido conectar a la base de datos.",
                         "Comprueba que el servidor MySQL está corriendo.");
             }
-        } else {
+        } else { // If properties are null, launches the init MySQL database window
             root = FXMLLoader.load(getClass().getResource("/view/initdatabase.fxml"));
             stage.setTitle("Configuración de la base de datos");
         }

@@ -103,9 +103,16 @@ public class MainController {
         tableGames.setPlaceholder(new Label("No hay juegos disponibles."));
         showGames(getGameList());
 
+        // Shows game details when it is selected
         tableGames.getSelectionModel().selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> showDetails(newValue));
+                .addListener((observable, oldValue, newValue) -> {
+                    showDetails(newValue);
+                    // When a game is selected, enables edit and delete buttons
+                    menuEditGame.setDisable(false);
+                    menuDelete.setDisable(false);
+                });
 
+        // Event listener to text search
         txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             HibernateGameService gameService = new HibernateGameService();
             try {
@@ -118,6 +125,7 @@ public class MainController {
         });
     }
 
+    // Reads games from database and they set into ObservableList
     private ObservableList<Game> getGameList() {
         GameService gameService = new HibernateGameService();
         ObservableList<Game> gameList = FXCollections.observableArrayList();
@@ -129,6 +137,7 @@ public class MainController {
         return gameList;
     }
 
+    // Show games in the games table
     private void showGames(ObservableList<Game> games) {
         colTitleGame.setCellValueFactory(new PropertyValueFactory<Game, String>("title"));
         colPlatformGame.setCellValueFactory(new PropertyValueFactory<Game, String>("platform"));
@@ -139,6 +148,7 @@ public class MainController {
         tableGames.refresh();
     }
 
+    // Shows game details in the right panel
     private void showDetails(Game game) {
         resetDetails();
         if (game != null) {
@@ -156,6 +166,7 @@ public class MainController {
         }
     }
 
+    // Reset details in the right panel
     private void resetDetails() {
         imgPhotoDetails.setImage(null);
         lblTitleDetails.setText("");
@@ -213,8 +224,6 @@ public class MainController {
     private void onMouseClickedCol(MouseEvent event) throws IOException {
         Game game = tableGames.getSelectionModel().getSelectedItem();
         if (game != null) {
-            menuEditGame.setDisable(false);
-            menuDelete.setDisable(false);
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() > 1)
                 editGame();
         }
@@ -229,6 +238,7 @@ public class MainController {
         }
     }
 
+    // Shows game edit window with the selected game and shows games updated when is finished
     private void editGame() throws IOException {
         Game game = tableGames.getSelectionModel().getSelectedItem();
         if (game != null) {
@@ -263,6 +273,7 @@ public class MainController {
         platformWindow(stage).setOnHidden(e -> showGames(getGameList()));
     }
 
+    // Shows platforms window
     private Stage platformWindow(Stage stage) throws IOException {
         Stage newStage = new Stage();
         newStage.initOwner(stage);
@@ -294,6 +305,7 @@ public class MainController {
         emulatorWindow(stage).setOnHidden(e -> showGames(getGameList()));
     }
 
+    // Shows emulators window
     private Stage emulatorWindow(Stage stage) throws IOException {
         Stage newStage = new Stage();
         newStage.initOwner(stage);
@@ -329,6 +341,7 @@ public class MainController {
 
     }
 
+    // Shows game register window
     private Stage gameRegisterWindow(Stage stage) throws IOException {
         Stage newStage = new Stage();
         newStage.initOwner(stage);
@@ -341,6 +354,7 @@ public class MainController {
         return newStage;
     }
 
+    // Shows game edit window
     private Stage gameEditWindow(Stage stage, Game game) throws IOException {
         Stage newStage = new Stage();
         newStage.initOwner(stage);

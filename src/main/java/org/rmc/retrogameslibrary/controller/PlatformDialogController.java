@@ -51,6 +51,7 @@ public class PlatformDialogController {
         showPlatforms();
     }
 
+    // Reads platforms from database and they set into ObservableList
     private ObservableList<Platform> getPlatformList() {
         PlatformService platformService = new HibernatePlatformService();
         ObservableList<Platform> platformList = FXCollections.observableArrayList();
@@ -62,6 +63,7 @@ public class PlatformDialogController {
         return platformList;
     }
 
+    // Show platforms in the platforms table
     private void showPlatforms() {
         ObservableList<Platform> platforms = getPlatformList();
 
@@ -94,7 +96,7 @@ public class PlatformDialogController {
         if (platform != null) {
             btnEditPlatform.setDisable(false);
             btnDeletePlatform.setDisable(false);
-            if (event.getButton() == MouseButton.PRIMARY &&  event.getClickCount() > 1)
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() > 1)
                 editPlatform();
         }
     }
@@ -108,6 +110,8 @@ public class PlatformDialogController {
         }
     }
 
+    // Shows platform edit window with the selected platform and shows platforms updated when is
+    // finished
     private void editPlatform() throws IOException {
         Platform platform = tablePlatforms.getSelectionModel().getSelectedItem();
         if (platform != null) {
@@ -131,6 +135,7 @@ public class PlatformDialogController {
                     AppDialog.messageDialog("Eliminar plataformas", "Se ha eliminado la plataforma "
                             + platform.getName() + " " + platform.getModel() + " con éxito.");
                     showPlatforms();
+                    // When a platform is deleted, disables edit and delete buttons
                     btnEditPlatform.setDisable(true);
                     btnDeletePlatform.setDisable(true);
                 } catch (CrudException e) {
@@ -140,6 +145,7 @@ public class PlatformDialogController {
         }
     }
 
+    // Shows platform register window
     private Stage platformRegisterWindow(Stage stage) throws IOException {
         Stage newStage = new Stage();
         newStage.initOwner(stage);
@@ -152,6 +158,7 @@ public class PlatformDialogController {
         return newStage;
     }
 
+    // Shows platform edit window
     private Stage platformEditWindow(Stage stage, Platform platform) throws IOException {
         Stage newStage = new Stage();
         newStage.initOwner(stage);

@@ -60,6 +60,7 @@ public class InitDatabaseController {
         stage.close();
     }
 
+    // Launches login window
     private void initLoginWindow(Stage stage) throws IOException {
         Parent root = FXMLLoader
                 .load(getClass().getResource("/view/logindialog.fxml"));
