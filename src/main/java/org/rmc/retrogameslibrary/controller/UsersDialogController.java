@@ -50,6 +50,13 @@ public class UsersDialogController {
     @FXML
     public void initialize() {
         showUsers();
+
+        tableUsers.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    // When a game is selected, enables edit and delete buttons
+                    btnEditUser.setDisable(false);
+                    btnDeleteUser.setDisable(false);
+                });
     }
 
     // Reads users from database and they set into ObservableList

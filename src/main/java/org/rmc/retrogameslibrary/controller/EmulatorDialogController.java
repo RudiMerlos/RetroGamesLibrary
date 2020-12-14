@@ -45,6 +45,13 @@ public class EmulatorDialogController {
     public void initialize() {
         tableEmulators.setPlaceholder(new Label("No hay emuladores"));
         showEmulators();
+
+        tableEmulators.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    // When a game is selected, enables edit and delete buttons
+                    btnEditEmulator.setDisable(false);
+                    btnDeleteEmulator.setDisable(false);
+                });
     }
 
     // Reads emulators from database and they set into ObservableList
@@ -85,8 +92,6 @@ public class EmulatorDialogController {
     private void onMouseClickedCol(MouseEvent event) throws IOException {
         Emulator emulator = tableEmulators.getSelectionModel().getSelectedItem();
         if (emulator != null) {
-            btnEditEmulator.setDisable(false);
-            btnDeleteEmulator.setDisable(false);
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() > 1)
                 editEmulator();
         }
@@ -132,6 +137,7 @@ public class EmulatorDialogController {
         }
     }
 
+    // Shows emulator register window
     private Stage emulatorRegisterWindow(Stage stage) throws IOException {
         Stage newStage = new Stage();
         newStage.initOwner(stage);
@@ -144,6 +150,7 @@ public class EmulatorDialogController {
         return newStage;
     }
 
+    // Shows emulator edit window
     private Stage emulatorEditWindow(Stage stage, Emulator emulator) throws IOException {
         Stage newStage = new Stage();
         newStage.initOwner(stage);

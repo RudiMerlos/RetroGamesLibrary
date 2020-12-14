@@ -16,6 +16,7 @@ public class AboutWindowController {
 
     @FXML
     private void onClickHyperlink(ActionEvent event) {
+        // Shows hyperlink url in the user default browser
         Main.hostServices.showDocument(hyperlink.getAccessibleText());
     }
 

@@ -49,6 +49,13 @@ public class PlatformDialogController {
     @FXML
     public void initialize() {
         showPlatforms();
+
+        tablePlatforms.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    // When a game is selected, enables edit and delete buttons
+                    btnEditPlatform.setDisable(false);
+                    btnDeletePlatform.setDisable(false);
+                });
     }
 
     // Reads platforms from database and they set into ObservableList
@@ -94,8 +101,6 @@ public class PlatformDialogController {
     private void onMouseClickedCol(MouseEvent event) throws IOException {
         Platform platform = tablePlatforms.getSelectionModel().getSelectedItem();
         if (platform != null) {
-            btnEditPlatform.setDisable(false);
-            btnDeletePlatform.setDisable(false);
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() > 1)
                 editPlatform();
         }
