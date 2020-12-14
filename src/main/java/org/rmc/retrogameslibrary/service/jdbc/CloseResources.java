@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import org.rmc.retrogameslibrary.repository.CrudException;
 
+// Close JDBC resources
 public interface CloseResources {
 
     default void close(Statement st) throws CrudException {

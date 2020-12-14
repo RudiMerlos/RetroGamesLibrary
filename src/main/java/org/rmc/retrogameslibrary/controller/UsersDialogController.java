@@ -52,6 +52,7 @@ public class UsersDialogController {
         showUsers();
     }
 
+    // Reads users from database and they set into ObservableList
     private ObservableList<User> getUserList() {
         UserService userService = new MysqlUserService();
         ObservableList<User> userList = FXCollections.observableArrayList();
@@ -63,6 +64,7 @@ public class UsersDialogController {
         return userList;
     }
 
+    // Show users in the users table
     private void showUsers() {
         ObservableList<User> users = getUserList();
 
@@ -93,6 +95,7 @@ public class UsersDialogController {
         Properties properties = PropertiesConfig.readProperties();
         if (user != null) {
             btnEditUser.setDisable(false);
+            // If current user is selected, delete button is disabled
             if (!user.getEmail().equals(properties.getProperty(PropertiesConfig.CURRENT_USER)))
                 btnDeleteUser.setDisable(false);
             else
@@ -112,6 +115,7 @@ public class UsersDialogController {
         }
     }
 
+    // Shows user edit window with the selected user and shows users updated when is finished
     private void editUser() throws IOException {
         User user = tableUsers.getSelectionModel().getSelectedItem();
         if (user != null) {
@@ -141,6 +145,7 @@ public class UsersDialogController {
         }
     }
 
+    // Shows user register window
     private Stage userRegisterWindow(Stage stage) throws IOException {
         Stage newStage = new Stage();
         newStage.initOwner(stage);
@@ -153,6 +158,7 @@ public class UsersDialogController {
         return newStage;
     }
 
+    // Shows user edit window
     private Stage userEditWindow(Stage stage, User user) throws IOException {
         Stage newStage = new Stage();
         newStage.initOwner(stage);
@@ -160,7 +166,7 @@ public class UsersDialogController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/usereditdialog.fxml"));
         Parent root = loader.load();
         UserEditDialogController controller = loader.getController();
-        controller.init(user);
+        controller.init(user); // the user is passed by init method
         newStage.setScene(new Scene(root));
         newStage.setTitle("Edición de usuarios");
         newStage.setResizable(false);

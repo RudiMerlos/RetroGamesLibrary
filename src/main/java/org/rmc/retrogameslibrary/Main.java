@@ -29,11 +29,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        // Get host services to access to default web browser
         hostServices = getHostServices();
 
         Parent root = null;
-        Properties properties = PropertiesConfig.readProperties();
 
+        // Handle events when application is closing
         stage.setOnCloseRequest(event -> {
             event.consume();
             if (AppDialog.confirmationDialog("Salir de Retro Games Library",
@@ -50,9 +51,14 @@ public class Main extends Application {
             }
         });
 
+        // Init database connections
         initPlatforms();
         initEmulators();
 
+        // Read properties
+        Properties properties = PropertiesConfig.readProperties();
+        // If properties are not null, then try to set MySQL connection, if not, launches the login
+        // window
         if (properties != null) {
             try {
                 String host = properties.getProperty(PropertiesConfig.MYSQL_HOST);
@@ -61,6 +67,8 @@ public class Main extends Application {
                 String db = properties.getProperty(PropertiesConfig.MYSQL_DATABASE);
                 MysqlConnection.getInstance().connect(host, user, pass, db);
 
+                // If the current user property is not setted, launches the login window, if not,
+                // launches the main window
                 if (properties.getProperty(PropertiesConfig.CURRENT_USER) == null
                         || properties.getProperty(PropertiesConfig.CURRENT_USER).isEmpty()) {
                     root = FXMLLoader.load(getClass().getResource("/view/logindialog.fxml"));
@@ -83,10 +91,12 @@ public class Main extends Application {
         stage.show();
     }
 
+    // Get ObjectDB connection
     private void initEmulators() {
         ObjectdbConnection.getInstance().connect("emulatorsdb");
     }
 
+    // Get Hibernate connection and fill platforms table with some values
     private void initPlatforms() {
         HibernateConnection.getInstance().connect();
         PlatformService platformService = new HibernatePlatformService();
@@ -99,6 +109,7 @@ public class Main extends Application {
         }
     }
 
+    // Insert some values into platform table
     private void fillPlatforms() {
         PlatformService platformService = new HibernatePlatformService();
         List<Platform> platforms = List.of(

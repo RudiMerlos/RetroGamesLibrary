@@ -19,6 +19,7 @@ import org.rmc.retrogameslibrary.service.UserService;
 
 public class MysqlUserService implements UserService, CloseResources {
 
+    // SQL queries
     private final String INSERT = "INSERT INTO user VALUES (?, ?, ?, ?, ?)";
     private final String UPDATE = "UPDATE user SET passw = ?, first_name = ?, last_name = ?, "
             + "birthdate = ? WHERE email = ?";
@@ -138,6 +139,7 @@ public class MysqlUserService implements UserService, CloseResources {
         }
     }
 
+    // Convert ResultSet to User object
     private User resultSetToUser(ResultSet rs) throws SQLException {
         String email = rs.getString("email");
         String password = rs.getString("passw");

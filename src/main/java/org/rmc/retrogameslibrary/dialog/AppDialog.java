@@ -6,6 +6,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Region;
 
+// Builds several kinds of static alert dialogs
 public class AppDialog {
 
     public static boolean confirmationDialog(String title, String header) {

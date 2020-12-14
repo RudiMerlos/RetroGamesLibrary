@@ -46,6 +46,7 @@ public class UserRegisterDialogController {
                 AppDialog.errorDialog("Error en el email",
                         "Debes de introducir una dirección de email válida.");
             } else if (password.length() < 6 || password.length() > 16) {
+                // Password must be between 6 and 16 chars of length
                 AppDialog.errorDialog("Error en la contraseña",
                         "La contraseña debe tener entre 6 y 16 caracteres.");
             } else {
@@ -73,6 +74,7 @@ public class UserRegisterDialogController {
         stage.close();
     }
 
+    // Checks if email is valid
     private boolean emailIsValid(String email) {
         String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
         return email.matches(regex);

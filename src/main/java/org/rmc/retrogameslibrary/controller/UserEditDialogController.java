@@ -35,6 +35,7 @@ public class UserEditDialogController {
 
     private User user = null;
 
+    // Sets the user to edit
     public void init(User user) {
         this.user = user;
         if (user == null) {
