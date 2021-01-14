@@ -260,6 +260,7 @@ public class MainController {
                             "Se ha eliminado el juego " + game.getTitle() + " con éxito.");
                     menuEditGame.setDisable(true);
                     menuDelete.setDisable(true);
+                    showGames(getGameList());
                 } catch (CrudException e) {
                     AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
                 }
