@@ -75,6 +75,8 @@ public class EmulatorEditDialogController {
 
         if (!name.isEmpty() && !path.isEmpty()) {
             EmulatorService emulatorService = new ObjectdbEmulatorService();
+            emulator.setName(name);
+            emulator.setPath(path);
             try {
                 emulatorService.insert(emulator);
                 AppDialog.messageDialog("Edición de emuladores",
