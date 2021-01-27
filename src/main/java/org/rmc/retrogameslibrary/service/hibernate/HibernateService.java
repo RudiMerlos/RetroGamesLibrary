@@ -6,7 +6,7 @@ public class HibernateService {
 
     protected Session session = null;
 
-    public HibernateService() {
+    protected HibernateService() {
         session = HibernateConnection.getInstance().getEntityManager();
     }
 }
