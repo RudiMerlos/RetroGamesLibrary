@@ -26,7 +26,6 @@ public class MongoPlatformService extends MongoService implements PlatformServic
     public void insert(Platform platform) throws CrudException {
         try {
             Document document = new Document();
-            document.put("_id", platform.getId());
             document.put("name", platform.getName());
             document.put("model", platform.getModel());
             document.put("company", platform.getCompany());
@@ -67,10 +66,15 @@ public class MongoPlatformService extends MongoService implements PlatformServic
         }
     }
 
+    @Override
+    public void removeAll() throws CrudException {
+        db.getCollection("platforms").drop();
+    }
+
     private Platform documentToPlatform(Document document) {
-        return new Platform(document.getLong("_id"), document.getString("name"),
-                document.getString("model"), document.getString("company"),
-                document.getString("country"), document.getInteger("year"));
+        return new Platform(document.getString("name"), document.getString("model"),
+                document.getString("company"), document.getString("country"),
+                document.getInteger("year"));
     }
 
     @Override

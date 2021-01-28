@@ -24,6 +24,7 @@ public class MysqlUserService implements UserService, CloseResources {
     private final String UPDATE = "UPDATE user SET passw = ?, first_name = ?, last_name = ?, "
             + "birthdate = ? WHERE email = ?";
     private final String DELETE = "DELETE FROM user WHERE email = ?";
+    private final String DELETEALL = "DELETE FROM user";
     private final String GETALL = "SELECT email, passw, first_name, last_name, birthdate FROM user";
     private final String GETBYID = GETALL + " WHERE email = ?";
     private final String GETBYFIRSTNAME = GETALL + " WHERE first_name = ?";
@@ -132,6 +133,18 @@ public class MysqlUserService implements UserService, CloseResources {
             st.setString(1, user.getEmail());
             if (st.executeUpdate() == 0)
                 throw new CrudException("Es probable que no se haya eliminado el registro.");
+        } catch (SQLException e) {
+            throw new CrudException("Error en MySQL", e);
+        } finally {
+            close(st);
+        }
+    }
+
+    @Override
+    public void removeAll() throws CrudException {
+        try {
+            st = connection.prepareStatement(DELETEALL);
+            st.executeUpdate();
         } catch (SQLException e) {
             throw new CrudException("Error en MySQL", e);
         } finally {

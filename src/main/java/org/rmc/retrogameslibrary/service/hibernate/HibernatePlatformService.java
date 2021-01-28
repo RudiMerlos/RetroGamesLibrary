@@ -1,6 +1,7 @@
 package org.rmc.retrogameslibrary.service.hibernate;
 
 import java.util.List;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.rmc.retrogameslibrary.model.Platform;
 import org.rmc.retrogameslibrary.repository.CrudException;
@@ -48,6 +49,23 @@ public class HibernatePlatformService extends HibernateService implements Platfo
             session.getTransaction().begin();
             session.remove(session.find(Platform.class, platform.getId()));
             session.getTransaction().commit();
+        } catch (Exception e) {
+            throw new CrudException("Error de Hibernate", e);
+        } finally {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+        }
+    }
+
+    @Override
+    public void removeAll() throws CrudException {
+        try {
+            session.getTransaction().begin();
+            Query query = session.createQuery("DELETE FROM Platform");
+            query.executeUpdate();
+            session.getTransaction().commit();
+            // session.createNamedQuery("Platform.deleteAll", Platform.class);
         } catch (Exception e) {
             throw new CrudException("Error de Hibernate", e);
         } finally {

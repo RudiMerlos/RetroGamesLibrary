@@ -28,7 +28,6 @@ public class MongoGameService extends MongoService implements GameService {
     public void insert(Game game) throws CrudException {
         try {
             Document document = new Document();
-            document.put("_id", game.getId());
             document.put("title", game.getTitle());
             document.put("description", game.getDescription());
             document.put("year", game.getYear());
@@ -75,13 +74,18 @@ public class MongoGameService extends MongoService implements GameService {
         }
     }
 
+    @Override
+    public void removeAll() throws CrudException {
+        db.getCollection("games").drop();
+    }
+
     private Game documentToEmulator(Document document) throws CrudException {
         PlatformService platformService = new MongoPlatformService();
         Platform platform = platformService.getById(document.getLong("platform_id"));
-        return new Game(document.getLong("_id"), document.getString("title"),
-                document.getString("description"), document.getInteger("year"),
-                document.getString("gender"), document.getString("screenshot"),
-                document.getString("path"), document.getString("command"), platform);
+        return new Game(document.getString("title"), document.getString("description"),
+                document.getInteger("year"), document.getString("gender"),
+                document.getString("screenshot"), document.getString("path"),
+                document.getString("command"), platform);
     }
 
     @Override

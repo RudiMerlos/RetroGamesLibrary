@@ -2,6 +2,7 @@ package org.rmc.retrogameslibrary.service.objectdb;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.rmc.retrogameslibrary.model.Emulator;
 import org.rmc.retrogameslibrary.repository.CrudException;
@@ -20,11 +21,12 @@ public class ObjectdbEmulatorService implements EmulatorService {
         try {
             em.getTransaction().begin();
             em.persist(emulator);
+            em.getTransaction().commit();
         } catch (Exception e) {
             throw new CrudException("Error de ObjectDB", e);
         } finally {
             if (em.getTransaction().isActive()) {
-                em.getTransaction().commit();
+                em.getTransaction().rollback();
             }
         }
     }
@@ -34,11 +36,12 @@ public class ObjectdbEmulatorService implements EmulatorService {
         try {
             em.getTransaction().begin();
             em.persist(emulator);
+            em.getTransaction().commit();
         } catch (Exception e) {
             throw new CrudException("Error de ObjectDB", e);
         } finally {
             if (em.getTransaction().isActive()) {
-                em.getTransaction().commit();
+                em.getTransaction().rollback();
             }
         }
     }
@@ -48,11 +51,28 @@ public class ObjectdbEmulatorService implements EmulatorService {
         try {
             em.getTransaction().begin();
             em.remove(em.find(Emulator.class, emulator.getId()));
+            em.getTransaction().commit();
         } catch (Exception e) {
             throw new CrudException("Error de ObjectDB", e);
         } finally {
             if (em.getTransaction().isActive()) {
-                em.getTransaction().commit();
+                em.getTransaction().rollback();
+            }
+        }
+    }
+
+    @Override
+    public void removeAll() throws CrudException {
+        try {
+            em.getTransaction().begin();
+            Query query = em.createQuery("DELETE FROM Emulator");
+            query.executeUpdate();
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            throw new CrudException("Error de ObjectDB", e);
+        } finally {
+            if (em.getTransaction().isActive()) {
+                em.getTransaction().rollback();
             }
         }
     }

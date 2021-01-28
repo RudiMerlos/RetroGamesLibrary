@@ -85,8 +85,8 @@ A continuación se detallan las funcionalidades de la aplicación:
 
 - Menú archivo
     - Añadir nuevo juego: Abre un diálogo para añadir un nuevo juego a la base de datos Game.
-    - Importar: (aún está por implementar)
-    - Exportar: (aún está por implementar)
+    - Importar: Importa una colección de juegos, plataformas y emuladores desde una base de datos MongoDB.
+    - Exportar: Exporta una colección de juegos, plataformas y emuladores desde una base de datos MongoDB.
     - Cerrar sesión: Cierra la sesión del usuario actual y muestra la ventana de login.
     - Salir: Sale de la aplicación.
 - Menú editar

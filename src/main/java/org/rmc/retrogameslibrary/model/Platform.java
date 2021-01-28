@@ -58,15 +58,6 @@ public class Platform implements Serializable {
     @OneToMany(mappedBy = "platform", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Game> games = new ArrayList<>();
 
-    public Platform(Long id, String name, String model, String company, String country, int year) {
-        this.id = id;
-        this.name = name;
-        this.model = model;
-        this.company = company;
-        this.country = country;
-        this.year = year;
-    }
-
     public Platform(String name, String model, String company, String country, int year) {
         this.name = name;
         this.model = model;

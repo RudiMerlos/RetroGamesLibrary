@@ -26,7 +26,6 @@ public class MongoEmulatorService extends MongoService implements EmulatorServic
     public void insert(Emulator emulator) throws CrudException {
         try {
             Document document = new Document();
-            document.put("_id", emulator.getId());
             document.put("name", emulator.getName());
             document.put("path", emulator.getPath());
             collection.insertOne(document);
@@ -62,8 +61,12 @@ public class MongoEmulatorService extends MongoService implements EmulatorServic
     }
 
     private Emulator documentToEmulator(Document document) {
-        return new Emulator(document.getLong("_id"), document.getString("name"),
-                document.getString("path"));
+        return new Emulator(document.getString("name"), document.getString("path"));
+    }
+
+    @Override
+    public void removeAll() throws CrudException {
+        db.getCollection("emulators").drop();
     }
 
     @Override

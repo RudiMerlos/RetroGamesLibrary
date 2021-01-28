@@ -4,14 +4,25 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 import org.rmc.retrogameslibrary.config.PropertiesConfig;
 import org.rmc.retrogameslibrary.dialog.AppDialog;
+import org.rmc.retrogameslibrary.model.Emulator;
 import org.rmc.retrogameslibrary.model.Game;
+import org.rmc.retrogameslibrary.model.Platform;
 import org.rmc.retrogameslibrary.repository.CrudException;
+import org.rmc.retrogameslibrary.service.EmulatorService;
 import org.rmc.retrogameslibrary.service.GameService;
+import org.rmc.retrogameslibrary.service.PlatformService;
 import org.rmc.retrogameslibrary.service.hibernate.HibernateGameService;
+import org.rmc.retrogameslibrary.service.hibernate.HibernatePlatformService;
 import org.rmc.retrogameslibrary.service.jdbc.MysqlConnection;
+import org.rmc.retrogameslibrary.service.mongo.MongoConnection;
+import org.rmc.retrogameslibrary.service.mongo.MongoEmulatorService;
+import org.rmc.retrogameslibrary.service.mongo.MongoGameService;
+import org.rmc.retrogameslibrary.service.mongo.MongoPlatformService;
+import org.rmc.retrogameslibrary.service.objectdb.ObjectdbEmulatorService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -184,10 +195,134 @@ public class MainController {
 
     @FXML
     private void onClickImport(ActionEvent event) {
+        // Get connection
+        try {
+            MongoConnection.getInstance().connect("localhost", 27017, "retrodb");
+        } catch (CrudException e) {
+            AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
+            return;
+        }
+
+        GameService gameService = null;
+        PlatformService platformService = null;
+        EmulatorService emulatorService = null;
+
+        // Delete data
+        gameService = new HibernateGameService();
+        platformService = new HibernatePlatformService();
+        emulatorService = new ObjectdbEmulatorService();
+        try {
+            emulatorService.removeAll();
+            gameService.removeAll();
+            platformService.removeAll();
+        } catch (CrudException e) {
+            AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
+            return;
+        }
+
+        // Read data from MongoDB
+        gameService = new MongoGameService();
+        platformService = new MongoPlatformService();
+        emulatorService = new MongoEmulatorService();
+
+        List<Game> games = null;
+        List<Platform> platforms = null;
+        List<Emulator> emulators = null;
+        try {
+            games = gameService.getAll();
+            platforms = platformService.getAll();
+            emulators = emulatorService.getAll();
+        } catch (CrudException e) {
+            AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
+            return;
+        }
+
+        // Save data into H2 and ObjectDB
+        gameService = new HibernateGameService();
+        platformService = new HibernatePlatformService();
+        emulatorService = new ObjectdbEmulatorService();
+
+        try {
+            for (Platform platform : platforms)
+                platformService.insert(platform);
+            for (Game game : games)
+                gameService.insert(game);
+            for (Emulator emulator : emulators)
+                emulatorService.insert(emulator);
+            AppDialog.messageDialog("Importar colección",
+                    "La colección se ha importado correctamente.");
+            showGames(getGameList());
+        } catch (CrudException e) {
+            AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
+        }
     }
 
     @FXML
     private void onClickExport(ActionEvent event) {
+        if (AppDialog.confirmationDialog("Exportar colección",
+                "La siguiente acción sustituirá cualquier otra colección que\n"
+                        + "hubieras exportado anteriormente.",
+                "¿Deseas continuar?")) {
+            // Get connection
+            try {
+                MongoConnection.getInstance().connect("localhost", 27017, "retrodb");
+            } catch (CrudException e) {
+                AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
+                return;
+            }
+
+            GameService gameService = null;
+            PlatformService platformService = null;
+            EmulatorService emulatorService = null;
+
+            // Drop collections
+            gameService = new MongoGameService();
+            platformService = new MongoPlatformService();
+            emulatorService = new MongoEmulatorService();
+            try {
+                gameService.removeAll();
+                platformService.removeAll();
+                emulatorService.removeAll();
+            } catch (CrudException e) {
+                AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
+                return;
+            }
+
+            // Get data from application
+            gameService = new HibernateGameService();
+            platformService = new HibernatePlatformService();
+            emulatorService = new ObjectdbEmulatorService();
+
+            List<Game> games = null;
+            List<Platform> platforms = null;
+            List<Emulator> emulators = null;
+            try {
+                games = gameService.getAll();
+                platforms = platformService.getAll();
+                emulators = emulatorService.getAll();
+            } catch (CrudException e) {
+                AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
+                return;
+            }
+
+            // Save data into MongoDB
+            gameService = new MongoGameService();
+            platformService = new MongoPlatformService();
+            emulatorService = new MongoEmulatorService();
+
+            try {
+                for (Game game : games)
+                    gameService.insert(game);
+                for (Platform platform : platforms)
+                    platformService.insert(platform);
+                for (Emulator emulator : emulators)
+                    emulatorService.insert(emulator);
+                AppDialog.messageDialog("Exportar colección",
+                        "La colección se ha exportado correctamente.");
+            } catch (CrudException e) {
+                AppDialog.errorDialog(e.getMessage(), e.getCause().toString());
+            }
+        }
     }
 
     @FXML

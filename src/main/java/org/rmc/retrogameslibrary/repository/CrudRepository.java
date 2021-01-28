@@ -10,6 +10,8 @@ public interface CrudRepository<T, K> {
 
     void remove(T pT) throws CrudException;
 
+    void removeAll() throws CrudException;
+
     T getById(K id) throws CrudException;
 
     List<T> getAll() throws CrudException;

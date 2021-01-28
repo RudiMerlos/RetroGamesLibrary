@@ -1,6 +1,7 @@
 package org.rmc.retrogameslibrary.service.hibernate;
 
 import java.util.List;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.rmc.retrogameslibrary.model.Game;
 import org.rmc.retrogameslibrary.model.Platform;
@@ -55,6 +56,22 @@ public class HibernateGameService extends HibernateService implements GameServic
         } finally {
             if (session.getTransaction().isActive())
                 session.getTransaction().rollback();
+        }
+    }
+
+    @Override
+    public void removeAll() throws CrudException {
+        try {
+            session.getTransaction().begin();
+            Query query = session.createQuery("DELETE FROM Game");
+            query.executeUpdate();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            throw new CrudException("Error de Hibernate", e);
+        } finally {
+            if (session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
         }
     }
 
