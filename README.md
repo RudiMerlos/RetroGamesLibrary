@@ -79,6 +79,10 @@ Una tabla que se encarga de los datos de los emuladores:
     - Name -> Nombre del emulador.
     - Path -> Ruta al ejecutable.
 
+#### MongoDB
+
+Usa tres colecciones para realizar la importación y exportación de datos de la aplicación. Estas colecciones copian los datos de las tablas Game, Platform y Emulator, excluyendo las ID para que sean gestionadas por los propios ORMs.
+
 ## Funcionalidades
 
 A continuación se detallan las funcionalidades de la aplicación:
