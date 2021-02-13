@@ -70,7 +70,7 @@ Una tabla que se encarga de la información de los usuarios:
     - Email -> Email del usuario.
     - Passw -> Contraseña del usuario.
 
-#### OpenDB + JPA
+#### ObjectDB + JPA
 
 Una tabla que se encarga de los datos de los emuladores:
 
